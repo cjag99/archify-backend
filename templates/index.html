@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{{ titulo }}</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        margin: 40px;
+        line-height: 1.6;
+      }
+      .card {
+        border: 1px solid #ddd;
+        padding: 20px;
+        border-radius: 8px;
+      }
+      ul {
+        color: #2c3e50;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>{{ titulo }}</h1>
+      <p>
+        Hola, <strong>{{ usuario }}</strong>. Este es el resultado de tu
+        diccionario:
+      </p>
+
+      <ul>
+        {% for item in items %}
+        <li>{{ item }}</li>
+        {% endfor %}
+      </ul>
+
+      <p style="color: green">{{ status }}</p>
+    </div>
+  </body>
+</html>
