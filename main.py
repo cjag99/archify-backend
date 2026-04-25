@@ -1,4 +1,6 @@
 import os
+import logging
+import sys
 from dotenv import load_dotenv
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
@@ -8,10 +10,14 @@ from supabase import Client
 
 load_dotenv()
 
+logging.basicConfig(level=logging.DEBUG, stream=sys.stdout)
 db_params = {
     "url": os.getenv("SUPABASE_URL"),
     "key": os.getenv("SUPABASE_KEY")
 }
+
+logging.info(f"Supabase URL: {db_params['url']}")
+logging.info(f"Supabase Key: {db_params['key']}")
 if db_params.get("url") and db_params.get("key"):
     supabase = Client(db_params["url"], db_params["key"])
 
