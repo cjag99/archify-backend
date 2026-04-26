@@ -41,7 +41,7 @@ class UserProfile(BaseModel):
     created_at: datetime | None = None
     @field_validator("first_name", "last_name", "username", mode="before")
     @classmethod
-    def validate_fields(value: str) -> str:
+    def validate_fields(cls, value: str) -> str:
        """
        Applies global sanitization to string fields to prevent XSS attacks.
 

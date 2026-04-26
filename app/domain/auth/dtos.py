@@ -21,7 +21,7 @@ class UserRegistrationRequest(BaseModel):
 
     @field_validator("first_name", "last_name", "username", mode="before")
     @classmethod
-    def validate_fields(value: str) -> str:
+    def validate_fields(cls, value: str) -> str:
        """
        Applies global sanitization to string fields to prevent XSS attacks.
 
@@ -29,4 +29,17 @@ class UserRegistrationRequest(BaseModel):
        """
        return sanitize_string(value)
     
+    model_config = ConfigDict(from_attributes=True, strict=True)
+
+
+class UserLoginRequest(BaseModel):
+    """
+    Data model for user login requests.
+    Attributes:
+        email (EmailStr): User's email address, must be 5-255 characters.
+        password (str): User's password, must be 8-128 characters.
+    """
+    email: EmailStr = Field(..., min_length=5, max_length=255)
+    password: str = Field(..., min_length=8, max_length=128)
+
     model_config = ConfigDict(from_attributes=True, strict=True)
