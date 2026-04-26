@@ -27,7 +27,9 @@ class SupabaseUserRepository(UserRepositoryPort):
                 "username": user.username,
                 "email": user.email,
                 "first_name": user.first_name,
-                "last_name": user.last_name
+                "last_name": user.last_name,
+                "is_authorized": False,
+                "role": "user",
             }
             self.client.from_(self.table_name).upsert(user_data).execute()
         except Exception as e:

@@ -41,7 +41,7 @@ class AuthService:
                 first_name=registration_request.first_name,
                 last_name=registration_request.last_name
             )
-            self.user_repository.save(user_profile)
+            self.user_repository.save_user(user_profile)
             
             return user_profile
         except Exception as e:
