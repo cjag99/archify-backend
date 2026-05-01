@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, Depends
 from app.api.dependencies import get_auth_service
-from app.domain.auth.dtos import UserRegistrationRequest
+from app.domain.auth.dtos import UserLoginRequest, UserRegistrationRequest
 from app.domain.auth.services import AuthService
 
 
@@ -20,7 +20,7 @@ async def register_user(
 
 @router.post("/login")
 async def login_user(
-    data: UserRegistrationRequest,
+    data: UserLoginRequest,
     service: AuthService = Depends(get_auth_service)
 ):
     try:
