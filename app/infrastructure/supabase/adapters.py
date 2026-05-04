@@ -36,13 +36,13 @@ class SupabaseAuthAdapter(AuthPort):
         except Exception as e:
             raise AuthException(f"User registration failed: {str(e)}")
         
-    def login_user(self, login_request: UserLoginRequest) -> str:
+    def login_user(self, login_request: UserLoginRequest) -> dict:
         """
         Authenticates a user with the provided email and password.
         Args:
             login_request (UserLoginRequest): The login request containing email and password.
         Returns:
-            str: The authentication token for the authenticated user.
+            dict: A dictionary containing the authentication token and user information.
         Raises:
             Exception: If login fails due to any reason.
         """
@@ -51,11 +51,16 @@ class SupabaseAuthAdapter(AuthPort):
                 "email": login_request.email, 
                 "password": login_request.password
             })
-
+            user_id = response.user.id if response.user and response.user.id else "Unknown"
+            profile = self.client.table("profiles").select("*").eq("id", user_id).single().execute()
             if not response.session or not response.session.access_token:
                 raise AuthException("Authentication failed: No session or access token returned.")
 
-            return response.session.access_token
+            return {
+                "access_token": response.session.access_token,
+                "user": response.user,
+                "profile": profile.data
+            }
 
         except Exception as e:
             raise AuthException(f"User login failed: {str(e)}")
