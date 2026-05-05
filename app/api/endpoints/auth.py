@@ -24,7 +24,7 @@ async def login_user(
     service: AuthService = Depends(get_auth_service)
 ):
     try:
-        token = service.login_user(data)
-        return {"token": token, "token_type": "bearer"}
+       response = service.login_user(data)
+       return response
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))

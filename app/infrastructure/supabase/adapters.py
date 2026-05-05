@@ -58,7 +58,6 @@ class SupabaseAuthAdapter(AuthPort):
 
             return {
                 "access_token": response.session.access_token,
-                "user": response.user,
                 "profile": profile.data
             }
 

@@ -26,13 +26,13 @@ class AuthPort(ABC):
         pass
 
     @abstractmethod
-    def login_user(self, login_request: UserLoginRequest) -> str:
+    def login_user(self, login_request: UserLoginRequest) -> dict:
         """
         Authenticates a user based on the provided login request data and returns an authentication token.
         Args:
             login_request (UserLoginRequest): The data required to authenticate a user.
         Returns:
-            str: The authentication token for the authenticated user.
+            dict: A dictionary containing the authentication token and user information for the authenticated user.
         """        
         pass
 

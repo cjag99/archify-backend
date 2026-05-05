@@ -47,7 +47,7 @@ class AuthService:
         except Exception as e:
             raise AuthException(f"Registration failed: {str(e)}")
         
-    def login_user(self, login_request: UserLoginRequest) -> str:      
+    def login_user(self, login_request: UserLoginRequest) -> dict:      
         """
         Authenticates a user and returns their token.
         
@@ -57,13 +57,13 @@ class AuthService:
         Args:
             login_request (UserLoginRequest): The login details.
         Returns:
-            str: The authentication token for the authenticated user.
+            dict: A dictionary containing the authentication token and user information for the authenticated user.
         Raises:
             AuthException: If login fails at any step.
         """
         try:
-            token = self.auth_port.login_user(login_request)
-            return token
+            response = self.auth_port.login_user(login_request)
+            return response
         except Exception as e:
             raise AuthException(f"Login failed: {str(e)}")
         
