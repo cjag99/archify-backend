@@ -46,17 +46,19 @@ class SupabaseUserRepository(UserRepositoryPort):
             Exception: If retrieving the user profile fails for any reason.
         """
         try:
-            response = self.client.from_(self.table_name).select("*").eq("id", str(user_id)).maybe_single().execute()
+            response = self.client.from_(self.table_name).select("*").eq("id", str(user_id)).execute()
             
-            if not response.data:
+            if not getattr(response, "data", None):
                 return None
+                
+            data = response.data[0]
             
             return UserProfile(
-                id=UUID(response.data["id"]),
-                username=response.data["username"],
-                email=response.data["email"],
-                first_name=response.data["first_name"],
-                last_name=response.data["last_name"]
+                id=UUID(data["id"]),
+                username=data.get("username"),
+                email=data.get("email"),
+                first_name=data.get("first_name"),
+                last_name=data.get("last_name")
             )
         except Exception as e:
             raise Exception(f"Failed to retrieve user profile: {str(e)}")

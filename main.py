@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.api.endpoints import auth
+from app.api.endpoints import projects
 
 app = FastAPI()
 origins = [
@@ -17,6 +18,7 @@ app.add_middleware(
 )
 
 app.include_router(auth.router, prefix="/auth", tags=["auth"])
+app.include_router(projects.router, prefix="/projects", tags=["projects"])
 
 @app.get("/")
 def health_check():

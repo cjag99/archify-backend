@@ -100,7 +100,7 @@ class AuthService:
         """
         try:
             user_uuid = self.auth_port.verify_token(token)
-            user_profile = self.user_repository.get_by_id(user_uuid)
+            user_profile = self.user_repository.get_user_by_id(user_uuid)
             if not user_profile:
                 raise AuthException("User profile not found for the provided token.")
             
