@@ -1,4 +1,4 @@
-from fastapi import Depends, HTTPException, Security
+from fastapi import Depends, HTTPException, Security, Request
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
 from app.domain.patterns.services import PatternService
@@ -40,7 +40,7 @@ security = HTTPBearer()
 def get_current_user(
     credentials: HTTPAuthorizationCredentials = Security(security),
     auth_service: AuthService = Depends(get_auth_service)
-) -> UserProfile:
+) -> tuple[UserProfile, str] :
     """
     Dependency function to extract and verify the JWT token from the Authorization header.
     Returns the authenticated UserProfile.
@@ -49,14 +49,27 @@ def get_current_user(
         user = auth_service.get_user_by_token(credentials.credentials)
         if not user:
             raise HTTPException(status_code=401, detail="Invalid token")
-        return user
+        return (user, credentials.credentials)
     except Exception as e:
         raise HTTPException(status_code=401, detail=str(e))
 
-def is_user_admin(user: UserProfile = Depends(get_current_user)) -> UserProfile:
-    if not user.is_authorized:
+def is_user_admin(user_auth: tuple[UserProfile, str] = Depends(get_current_user)) -> tuple[UserProfile, str]:
+    user, token = user_auth
+    authorized = user.is_authorized[0] if isinstance(user.is_authorized, tuple) else user.is_authorized
+    if not authorized:
         raise HTTPException(status_code=403, detail="User is not authorized to perform this action")
-    return user
+    return user, token
 
 def get_pattern_service() -> PatternService:
     return pattern_service
+
+def get_token_from_header(request: Request) -> str:
+    auth_header = request.headers.get("Authorization")
+
+    if not auth_header or not auth_header.startswith("Bearer "):
+        raise HTTPException(
+            status_code=401,
+            detail="Missing or invalid Authorization header"
+        )
+    token = auth_header.split(" ")[1]
+    return token

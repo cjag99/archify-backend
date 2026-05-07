@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from uuid import UUID
 
-from app.api.dependencies import get_pattern_service, is_user_admin
+from app.api.dependencies import get_pattern_service, is_user_admin, get_token_from_header
 from app.domain.patterns.dtos import PatternRequestModel
 from app.domain.patterns.models import PatternModel
 from app.domain.patterns.services import PatternService
@@ -24,10 +24,11 @@ async def get_patterns(service: PatternService = Depends(get_pattern_service)):
 async def create_pattern(
         data: PatternRequestModel,
         service: PatternService = Depends(get_pattern_service),
-        current_user: UserProfile = Depends(is_user_admin)
+        user_auth: tuple[UserProfile, str] = Depends(is_user_admin),
 ) -> PatternModel:
+    user, token = user_auth
     try:
-        pattern = service.create_pattern(data, current_user.id)
+        pattern = service.create_pattern(data, user.id, token)
         return pattern
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
@@ -49,11 +50,12 @@ async def update_pattern(
         pattern_id: UUID,
         data: PatternRequestModel,
         service: PatternService = Depends(get_pattern_service),
-        current_user: UserProfile = Depends(is_user_admin),
+        user_auth: tuple[UserProfile, str] = Depends(is_user_admin),
 
 ):
     try:
-        service.update_pattern(pattern_id, data)
+        user, token = user_auth
+        service.update_pattern(pattern_id, data, token)
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
@@ -61,10 +63,10 @@ async def update_pattern(
 async def delete_pattern(
         pattern_id: UUID,
         service: PatternService = Depends(get_pattern_service),
-        current_user: UserProfile = Depends(is_user_admin),
-
+        user_auth: tuple[UserProfile, str] = Depends(is_user_admin),
 ):
     try:
-        service.delete_pattern(pattern_id)
+        user, token = user_auth
+        service.delete_pattern(pattern_id, token)
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))

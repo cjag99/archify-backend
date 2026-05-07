@@ -17,10 +17,7 @@ class SupabaseProjectRepository(ProjectRepositoryPort):
                 "project_logo": str(project.project_logo) if project.project_logo else None,
                 "architecture": str(project.architecture) if project.architecture else None,
             }
-            if project.created_at:
-                project_data["created_at"] = project.created_at.isoformat()
-            if project.id:
-                project_data["id"] = str(project.id)
+
                 
             response = self.client.from_(self.table_name).upsert(project_data).execute()
             if response.data:
@@ -38,15 +35,7 @@ class SupabaseProjectRepository(ProjectRepositoryPort):
             response = self.client.from_(self.table_name).select("*").eq("id", str(project_id)).execute()
             if response.data:
                 project_data = response.data[0]
-                return ProjectModel(
-                    id=UUID(project_data["id"]),
-                    name=project_data["name"],
-                    description=project_data.get("description"),
-                    user_id=UUID(project_data["user_id"]),
-                    project_logo=UUID(project_data["project_logo"]) if project_data.get("project_logo") else None,
-                    architecture=UUID(project_data["architecture"]) if project_data.get("architecture") else None,
-                    created_at=project_data.get("created_at"),
-                )
+                return ProjectModel(**project_data)
             return None
         except Exception as e:
             print(f"Error occurred while retrieving project by ID: {e}")
@@ -56,18 +45,8 @@ class SupabaseProjectRepository(ProjectRepositoryPort):
         try:
             response = self.client.from_(self.table_name).select("*").eq("user_id", str(user_id)).execute()
             if response.data:
-                return [
-                    ProjectModel(
-                        id=UUID(project_data["id"]),
-                        name=project_data["name"],
-                        description=project_data.get("description"),
-                        user_id=UUID(project_data["user_id"]),
-                        project_logo=UUID(project_data["project_logo"]) if project_data.get("project_logo") else None,
-                        architecture=UUID(project_data["architecture"]) if project_data.get("architecture") else None,
-                        created_at=project_data.get("created_at"),
-                    )
-                    for project_data in response.data
-                ]
+                return [ProjectModel(**project_data) for project_data in response.data]
+
             return None
         except Exception as e:
             print(f"Error occurred while retrieving projects by user ID: {e}")

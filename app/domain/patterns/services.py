@@ -7,13 +7,13 @@ class PatternService:
     def __init__(self, port: PatternPort):
         self.port = port
 
-    def create_pattern(self, data: PatternRequestModel, user_id: UUID) -> PatternModel | None:
+    def create_pattern(self, data: PatternRequestModel, user_id: UUID, token: str) -> PatternModel | None:
         pattern = PatternModel(
             name=data.name,
             description=data.description,
             base_structure=data.base_structure
         )
-        self.port.save_pattern(pattern)
+        self.port.save_pattern(pattern, token)
         return  pattern
 
     def get_pattern_by_id(self, pattern_id: UUID) -> PatternModel | None:
@@ -22,10 +22,10 @@ class PatternService:
     def get_all_patterns(self) -> list[PatternModel] | None:
         return self.port.get_all_patterns()
 
-    def delete_pattern(self, pattern_id: UUID) -> None:
-        return self.port.delete_pattern(pattern_id)
+    def delete_pattern(self, pattern_id: UUID, token: str) -> None:
+        return self.port.delete_pattern(pattern_id, token)
 
-    def update_pattern(self, pattern_id: UUID, data: PatternRequestModel) -> None:
+    def update_pattern(self, pattern_id: UUID, data: PatternRequestModel, token: str) -> None:
         pattern = self.port.get_pattern_by_id(pattern_id)
         if pattern:
             if pattern.name != data.name:
@@ -37,4 +37,4 @@ class PatternService:
             if pattern.base_structure != data.base_structure:
                 pattern.base_structure = data.base_structure
 
-            self.port.save_pattern(pattern)
+            self.port.save_pattern(pattern, token)

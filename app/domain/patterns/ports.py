@@ -7,7 +7,7 @@ from .models import PatternModel
 class PatternPort(ABC):
 
     @abstractmethod
-    def save_pattern(self, pattern: PatternModel) -> None:
+    def save_pattern(self, pattern: PatternModel, token: str) -> None:
         pass
 
     @abstractmethod
@@ -19,6 +19,6 @@ class PatternPort(ABC):
         pass
 
     @abstractmethod
-    def delete_pattern(self, pattern_id: UUID) -> None:
+    def delete_pattern(self, pattern_id: UUID, token: str) -> None:
         pass
 

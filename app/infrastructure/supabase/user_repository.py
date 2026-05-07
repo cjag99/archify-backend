@@ -58,7 +58,8 @@ class SupabaseUserRepository(UserRepositoryPort):
                 username=data.get("username"),
                 email=data.get("email"),
                 first_name=data.get("first_name"),
-                last_name=data.get("last_name")
+                last_name=data.get("last_name"),
+                is_authorized=data.get("is_authorized")
             )
         except Exception as e:
             raise Exception(f"Failed to retrieve user profile: {str(e)}")

@@ -10,14 +10,14 @@ class SupabasePatternRepository(PatternPort):
         self.client = supabase_client
         self.table_name = "patterns"
 
-    def save_pattern(self, pattern: PatternModel) -> None:
+    def save_pattern(self, pattern: PatternModel, token: str) -> None:
         try:
-            pattern_dict = {
-                "name": pattern.name,
-                "description": pattern.description,
-                "base_structure": pattern.base_structure
-            }
-            self.client.from_(self.table_name).upsert(pattern_dict).execute()
+            pattern_dict = pattern.model_dump(exclude_none=True)
+            self.client.postgrest.auth(token)
+            response = self.client.from_(self.table_name).upsert(pattern_dict).execute()
+            if hasattr(response, 'error') and response.error:
+                print(f"Error de base de datos: {response.error}")
+                raise Exception(response.error['message'])
         except Exception as e:
             print(f"Erro al guardar: {e}")
 
@@ -43,8 +43,9 @@ class SupabasePatternRepository(PatternPort):
             print(f"Error al obtener todos los patterns: {e}")
             return None
 
-    def delete_pattern(self, pattern_id: UUID) -> None:
+    def delete_pattern(self, pattern_id: UUID, token: str) -> None:
         try:
+            self.client.postgrest.auth(token)
             self.client.from_(self.table_name).delete().eq("id", pattern_id).execute()
         except Exception as e:
             print(f"Error al eliminar pattern: {e}")
