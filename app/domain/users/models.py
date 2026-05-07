@@ -28,6 +28,7 @@ class UserProfile(BaseModel):
         email (EmailStr): User's email address, must be 5-255 characters.
         username (str): User's username, must be 3-20 characters and match USERNAME_REGEX.
         is_authorized (bool): Indicates if the user is authorized to admin panel, defaults to False.
+        avatar (UUID | None): Optional unique identifier for the users profile image.
         role (UserProfileRole): Role of the user, defaults to USER.
         created_at (datetime | None): Timestamp of profile creation, optional.
     """
@@ -36,7 +37,8 @@ class UserProfile(BaseModel):
     last_name: str = Field(..., min_length=1, max_length=100, pattern=NAME_REGEX)
     email: EmailStr = Field(..., min_length=5, max_length=255)
     username: str = Field( ..., min_length=3, max_length=20, pattern=USERNAME_REGEX)
-    is_authorized: bool = False
+    is_authorized: bool = False,
+    avatar: UUID | None = None,
     role: UserProfileRole = UserProfileRole.USER
     created_at: datetime | None = None
     @field_validator("first_name", "last_name", "username", mode="before")
