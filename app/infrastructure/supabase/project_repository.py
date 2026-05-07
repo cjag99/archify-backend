@@ -8,7 +8,7 @@ class SupabaseProjectRepository(ProjectRepositoryPort):
         self.client = supabase_client
         self.table_name = "projects"
 
-    def save_project(self, project: ProjectModel) -> None:
+    def save_project(self, project: ProjectModel, token: str) -> None:
         try:
             project_data = {
                 "name": project.name,
@@ -18,7 +18,7 @@ class SupabaseProjectRepository(ProjectRepositoryPort):
                 "architecture": str(project.architecture) if project.architecture else None,
             }
 
-                
+            self.client.postgrest.auth(token)
             response = self.client.from_(self.table_name).upsert(project_data).execute()
             if response.data:
                 res_data = response.data[0]
@@ -30,8 +30,9 @@ class SupabaseProjectRepository(ProjectRepositoryPort):
         except Exception as e:
             print(f"Error occurred while saving project: {e}")
 
-    def get_project_by_id(self, project_id: UUID) -> ProjectModel | None:
+    def get_project_by_id(self, project_id: UUID, token: str) -> ProjectModel | None:
         try:
+            self.client.postgrest.auth(token)
             response = self.client.from_(self.table_name).select("*").eq("id", str(project_id)).execute()
             if response.data:
                 project_data = response.data[0]
@@ -41,8 +42,9 @@ class SupabaseProjectRepository(ProjectRepositoryPort):
             print(f"Error occurred while retrieving project by ID: {e}")
             return None
 
-    def get_projects_by_user_id(self, user_id: UUID) -> list[ProjectModel] | None:
+    def get_projects_by_user_id(self, user_id: UUID, token: str) -> list[ProjectModel] | None:
         try:
+            self.client.postgrest.auth(token)
             response = self.client.from_(self.table_name).select("*").eq("user_id", str(user_id)).execute()
             if response.data:
                 return [ProjectModel(**project_data) for project_data in response.data]
@@ -52,14 +54,9 @@ class SupabaseProjectRepository(ProjectRepositoryPort):
             print(f"Error occurred while retrieving projects by user ID: {e}")
             return None
 
-    def delete_project(self, project_id: UUID) -> None:
+    def delete_project(self, project_id: UUID, token: str) -> None:
         try:
+            self.client.postgrest.auth(token)
             self.client.from_(self.table_name).delete().eq("id", str(project_id)).execute()
         except Exception as e:
             print(f"Error occurred while deleting project: {e}")
-
-    def update_project(self, project: ProjectModel, data: dict) -> None:
-        try:
-            self.client.from_(self.table_name).update(data).eq("id", str(project.id)).execute()
-        except Exception as e:
-            print(f"Error occurred while updating project: {e}")

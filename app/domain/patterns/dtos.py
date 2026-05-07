@@ -6,7 +6,7 @@ JsonDict = Dict[str, Any]
 
 class PatternRequestModel(BaseModel):
     name: str
-    description: str
+    description: str | None = None
     base_structure: JsonDict | None = None
 
     @field_validator("name", "description", mode="before")
@@ -19,4 +19,4 @@ class PatternRequestModel(BaseModel):
         """
         return sanitize_string(value)
 
-    model_config = ConfigDict(from_attributes=True, strict=True)
+    model_config = ConfigDict(from_attributes=True, strict=False)

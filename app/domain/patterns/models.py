@@ -33,4 +33,4 @@ class PatternModel(BaseModel):
         """
         return sanitize_string(value)
 
-    model_config = ConfigDict(from_attributes=True, strict=True)
+    model_config = ConfigDict(from_attributes=True, strict=False)

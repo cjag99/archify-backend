@@ -13,11 +13,24 @@ class SupabasePatternRepository(PatternPort):
     def save_pattern(self, pattern: PatternModel, token: str) -> None:
         try:
             pattern_dict = pattern.model_dump(exclude_none=True)
+            if pattern_dict.get("id") is not None:
+                pattern_dict["id"] = str(pattern_dict["id"])
+            if pattern_dict.get("created_at") is not None:
+                pattern_dict["created_at"] = pattern_dict["created_at"].isoformat()
+
             self.client.postgrest.auth(token)
             response = self.client.from_(self.table_name).upsert(pattern_dict).execute()
             if hasattr(response, 'error') and response.error:
                 print(f"Error de base de datos: {response.error}")
                 raise Exception(response.error['message'])
+
+            if getattr(response, "data", None):
+                res_data = response.data[0]
+                if not pattern.id and res_data.get("id"):
+                    pattern.id = UUID(res_data["id"])
+                if not pattern.created_at and res_data.get("created_at"):
+                    from datetime import datetime
+                    pattern.created_at = datetime.fromisoformat(res_data["created_at"].replace("Z", "+00:00"))
         except Exception as e:
             print(f"Erro al guardar: {e}")
 

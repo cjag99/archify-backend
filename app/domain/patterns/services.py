@@ -31,10 +31,10 @@ class PatternService:
             if pattern.name != data.name:
                 pattern.name = data.name
 
-            if pattern.description != data.description:
+            if data.description is not None and pattern.description != data.description:
                 pattern.description = data.description
-
-            if pattern.base_structure != data.base_structure:
+                
+            if data.base_structure is not None and pattern.base_structure != data.base_structure:
                 pattern.base_structure = data.base_structure
 
             self.port.save_pattern(pattern, token)
