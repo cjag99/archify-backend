@@ -11,7 +11,7 @@ class PatternRequestModel(BaseModel):
 
     @field_validator("name", "description", mode="before")
     @classmethod
-    def vaidate_fields(cls, value: str) ->:
+    def vaidate_fields(cls, value: str) -> str:
         """
         Applies global sanitization to string fields to prevent XSS attacks.
 

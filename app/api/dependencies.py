@@ -1,19 +1,19 @@
+from fastapi import Depends, HTTPException, Security
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+
+from app.domain.patterns.services import PatternService
 from app.infrastructure.supabase.adapters import SupabaseAuthAdapter
+from app.infrastructure.supabase.pattern_repository import SupabasePatternRepository
 from app.infrastructure.supabase.user_repository import SupabaseUserRepository
 from app.infrastructure.supabase.project_repository import SupabaseProjectRepository
 from app.domain.auth.services import AuthService
-from app.domain.projects.services import ProjectService
-from fastapi import Depends, HTTPException, Security
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from app.domain.users.models import UserProfile
 from app.domain.projects.services import ProjectService
 
-auth_adapter = SupabaseAuthAdapter()
-user_repository = SupabaseUserRepository()
-auth_service = AuthService(auth_port=auth_adapter, user_repository=user_repository)
+auth_service = AuthService(auth_port=SupabaseAuthAdapter(), user_repository=SupabaseUserRepository())
+project_service = ProjectService(project_repository=SupabaseProjectRepository())
+pattern_service = PatternService(port=SupabasePatternRepository())
 
-project_repository = SupabaseProjectRepository()
-project_service = ProjectService(project_repository=project_repository)
 def get_auth_service() -> AuthService:
     """
     Dependency function to provide an instance of AuthService.
@@ -52,3 +52,11 @@ def get_current_user(
         return user
     except Exception as e:
         raise HTTPException(status_code=401, detail=str(e))
+
+def is_user_admin(user: UserProfile = Depends(get_current_user)) -> UserProfile:
+    if not user.is_authorized:
+        raise HTTPException(status_code=403, detail="User is not authorized to perform this action")
+    return user
+
+def get_pattern_service() -> PatternService:
+    return pattern_service
