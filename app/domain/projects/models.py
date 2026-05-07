@@ -14,7 +14,7 @@ class ProjectModel(BaseModel):
         description (str | None): Optional description of the project.
         user_id (UUID): Unique identifier of the user who owns the project.
         project_logo (UUID | None): Optional unique identifier for the project's logo image.
-        architecture (UUID | None): Optional unique identifier for the project's architecture file.
+        architecture (UUID | None): Optional unique identifier for the project's architecture structure.
         created_at (datetime | None): Timestamp indicating when the project was created.
     """
     id: UUID | None = None
