@@ -1,10 +1,11 @@
 from datetime import datetime
 from uuid import UUID
 from pydantic import BaseModel, ConfigDict, field_validator
-from pydantic.config import JsonDict
+from typing import Dict, Any
 
 from app.domain.utils import sanitize_string
 
+JsonDict = Dict[str, Any]
 
 class PatternModel(BaseModel):
     """

@@ -37,8 +37,8 @@ class UserProfile(BaseModel):
     last_name: str = Field(..., min_length=1, max_length=100, pattern=NAME_REGEX)
     email: EmailStr = Field(..., min_length=5, max_length=255)
     username: str = Field( ..., min_length=3, max_length=20, pattern=USERNAME_REGEX)
-    is_authorized: bool = False,
-    avatar: UUID | None = None,
+    is_authorized: bool = False
+    avatar: UUID | None = None
     role: UserProfileRole = UserProfileRole.USER
     created_at: datetime | None = None
     @field_validator("first_name", "last_name", "username", mode="before")

@@ -1,8 +1,8 @@
+from typing import Dict, Any
 from pydantic import BaseModel, ConfigDict, field_validator
-from pydantic.config import JsonDict
-
 from app.domain.utils import sanitize_string
 
+JsonDict = Dict[str, Any]
 
 class PatternRequestModel(BaseModel):
     name: str
@@ -11,7 +11,7 @@ class PatternRequestModel(BaseModel):
 
     @field_validator("name", "description", mode="before")
     @classmethod
-    def vaidate_fields(cls, value: str) -> str:
+    def validate_fields(cls, value: str) -> str:
         """
         Applies global sanitization to string fields to prevent XSS attacks.
 
