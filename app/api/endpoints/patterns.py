@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from uuid import UUID
 
-from app.api.dependencies import get_pattern_service, is_user_admin, get_token_from_header
+from app.api.dependencies import get_pattern_service, is_user_admin
 from app.domain.patterns.dtos import PatternRequestModel
 from app.domain.patterns.models import PatternModel
 from app.domain.patterns.services import PatternService

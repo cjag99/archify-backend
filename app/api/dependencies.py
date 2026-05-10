@@ -2,6 +2,7 @@ from fastapi import Depends, HTTPException, Security, Request
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
 from app.domain.patterns.services import PatternService
+from app.domain.users.services import UserService
 from app.infrastructure.supabase.adapters import SupabaseAuthAdapter
 from app.infrastructure.supabase.pattern_repository import SupabasePatternRepository
 from app.infrastructure.supabase.user_repository import SupabaseUserRepository
@@ -10,9 +11,10 @@ from app.domain.auth.services import AuthService
 from app.domain.users.models import UserProfile
 from app.domain.projects.services import ProjectService
 
-auth_service = AuthService(auth_port=SupabaseAuthAdapter(), user_repository=SupabaseUserRepository())
+auth_service = AuthService(auth_port=SupabaseAuthAdapter(), user_port=SupabaseUserRepository())
 project_service = ProjectService(project_repository=SupabaseProjectRepository())
 pattern_service = PatternService(port=SupabasePatternRepository())
+user_service = UserService(user_port=SupabaseUserRepository())
 
 def get_auth_service() -> AuthService:
     """
@@ -63,13 +65,5 @@ def is_user_admin(user_auth: tuple[UserProfile, str] = Depends(get_current_user)
 def get_pattern_service() -> PatternService:
     return pattern_service
 
-def get_token_from_header(request: Request) -> str:
-    auth_header = request.headers.get("Authorization")
-
-    if not auth_header or not auth_header.startswith("Bearer "):
-        raise HTTPException(
-            status_code=401,
-            detail="Missing or invalid Authorization header"
-        )
-    token = auth_header.split(" ")[1]
-    return token
+def get_user_service() -> UserService:
+    return UserService(user_port=SupabaseUserRepository())

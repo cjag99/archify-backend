@@ -1,6 +1,6 @@
 from .ports import AuthPort, AuthException
 from .dtos import UserLoginRequest, UserRegistrationRequest
-from ..users.ports import UserRepositoryPort
+from ..users.ports import UserPort
 from ..users.models import UserProfile
 
 class AuthService:
@@ -11,9 +11,9 @@ class AuthService:
     and the UserRepository (domain data).
     """
 
-    def __init__(self, auth_port: AuthPort, user_repository: UserRepositoryPort):
+    def __init__(self, auth_port: AuthPort, user_port: UserPort):
         self.auth_port = auth_port
-        self.user_repository = user_repository
+        self.user_port = user_port
 
     def register_user(self, registration_request: UserRegistrationRequest) -> UserProfile:
         """
@@ -41,7 +41,7 @@ class AuthService:
                 first_name=registration_request.first_name,
                 last_name=registration_request.last_name
             )
-            self.user_repository.save_user(user_profile)
+            self.user_port.save_user(user_profile)
             
             return user_profile
         except Exception as e:
@@ -100,7 +100,7 @@ class AuthService:
         """
         try:
             user_uuid = self.auth_port.verify_token(token)
-            user_profile = self.user_repository.get_user_by_id(user_uuid)
+            user_profile = self.user_port.get_user_by_id(user_uuid, token)
             if not user_profile:
                 raise AuthException("User profile not found for the provided token.")
             
