@@ -4,7 +4,7 @@ from .models import ArchitectureModel
 from .dtos import ArchitectureRequest
 from .ports import ArchitecturePort
 
-class ArcchitectureService:
+class ArchitectureService:
     def __init__(self, port: ArchitecturePort):
         self.port = port
 

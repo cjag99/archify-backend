@@ -1,9 +1,11 @@
 from fastapi import Depends, HTTPException, Security, Request
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
+from app.domain.architectures.services import ArchitectureService
 from app.domain.patterns.services import PatternService
 from app.domain.users.services import UserService
 from app.infrastructure.supabase.adapters import SupabaseAuthAdapter
+from app.infrastructure.supabase.architecture_repository import SupabaseArchitectureRepository
 from app.infrastructure.supabase.pattern_repository import SupabasePatternRepository
 from app.infrastructure.supabase.user_repository import SupabaseUserRepository
 from app.infrastructure.supabase.project_repository import SupabaseProjectRepository
@@ -15,6 +17,7 @@ auth_service = AuthService(auth_port=SupabaseAuthAdapter(), user_port=SupabaseUs
 project_service = ProjectService(project_repository=SupabaseProjectRepository())
 pattern_service = PatternService(port=SupabasePatternRepository())
 user_service = UserService(user_port=SupabaseUserRepository())
+architecture_service = ArchitectureService(port=SupabaseArchitectureRepository)
 
 def get_auth_service() -> AuthService:
     """
@@ -66,4 +69,7 @@ def get_pattern_service() -> PatternService:
     return pattern_service
 
 def get_user_service() -> UserService:
-    return UserService(user_port=SupabaseUserRepository())
+    return user_service
+
+def get_architecture_service() -> ArchitectureService:
+    return architecture_service
