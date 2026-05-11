@@ -17,7 +17,7 @@ auth_service = AuthService(auth_port=SupabaseAuthAdapter(), user_port=SupabaseUs
 project_service = ProjectService(project_repository=SupabaseProjectRepository())
 pattern_service = PatternService(port=SupabasePatternRepository())
 user_service = UserService(user_port=SupabaseUserRepository())
-architecture_service = ArchitectureService(port=SupabaseArchitectureRepository)
+architecture_service = ArchitectureService(port=SupabaseArchitectureRepository())
 
 def get_auth_service() -> AuthService:
     """
