@@ -1,8 +1,9 @@
-from typing import Dict, Any
 from pydantic import BaseModel, ConfigDict, field_validator
-from app.domain.utils import sanitize_string
 
-JsonDict = Dict[str, Any]
+from app.domain.utils import sanitize_string
+from app.domain.jsonb_type import JsonDict
+
+
 
 class PatternRequestModel(BaseModel):
     name: str

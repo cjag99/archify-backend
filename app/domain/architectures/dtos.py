@@ -1,6 +1,6 @@
 from pydantic import BaseModel, ConfigDict, field_validator
 
-from app.domain.patterns.models import JsonDict
+from app.domain.jsonb_type import JsonDict
 from app.domain.utils import sanitize_string
 
 class ArchitectureRequest(BaseModel):
