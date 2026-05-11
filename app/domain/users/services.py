@@ -12,7 +12,7 @@ class UserService:
     def __init__(self, user_port: UserPort):
         self.user_port = user_port
 
-    def get_user_profile(self, user_id: UUID, token: str) -> UserProfile:
+    def get_user_by_id(self, user_id: UUID, token: str) -> UserProfile:
         """
         Retrieves a user's profile by their ID.
         

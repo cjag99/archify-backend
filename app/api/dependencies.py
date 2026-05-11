@@ -24,7 +24,8 @@ def get_auth_service() -> AuthService:
     Dependency function to provide an instance of AuthService.
     
     This function can be used with FastAPI's Depends to inject the AuthService into API endpoints.
-    
+
+    Returns:
         AuthService: An instance of the AuthService class, initialized with the necessary adapters and repositories.
     """
     return auth_service
