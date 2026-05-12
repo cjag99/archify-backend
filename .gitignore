@@ -1,7 +1,6 @@
 .venv/
 .uv/
 __pycache__/
-skills/
 *.py[cod]
 *$py.class
 .env
