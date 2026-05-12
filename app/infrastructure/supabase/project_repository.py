@@ -15,10 +15,10 @@ class SupabaseProjectRepository(ProjectPort):
 
     def save_project(self, project: ProjectModel, token: str) -> None:
         """
-        Saves a profile to the Supabase database.
+        Saves a project to the Supabase database.
         Args:
             project (ProjectModel): The project to save.
-            token (str): The autheunticated user bearer token.
+            token (str): The autheuntication token for the request.
         Raises:
             Exception: If saving the project fails for any reason.
         """

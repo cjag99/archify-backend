@@ -43,6 +43,7 @@ class SupabaseUserRepository(UserPort):
                 if not user.created_at and res_data.get("created_at"):
                     from datetime import datetime
                     user.created_at = datetime.fromisoformat(res_data["created_at"].replace("Z", "+00:00"))
+
         except Exception as e:
             raise Exception(f"Failed to save user profile: {str(e)}")
         
@@ -67,6 +68,7 @@ class SupabaseUserRepository(UserPort):
             data = response.data[0]
             
             return UserProfile(**data)
+
         except Exception as e:
             raise Exception(f"Failed to retrieve user profile: {str(e)}")
         
@@ -82,6 +84,7 @@ class SupabaseUserRepository(UserPort):
         try:
             self.client.postgrest.auth(token)
             self.client.from_(self.table_name).delete().eq("id", str(user_id)).execute()
+
         except Exception as e:
             raise Exception(f"Failed to delete user profile: {str(e)}")
         
@@ -98,8 +101,11 @@ class SupabaseUserRepository(UserPort):
         try:
             self.client.postgrest.auth(token)
             response = self.client.from_(self.table_name).select("*").execute()
+
             if not getattr(response, "data", None):
                 return None
+
             return [UserProfile(**row) for  row in response.data]
+
         except Exception as e:
             raise Exception(f"Failed to retrieve user profiles: {str(e)}")
