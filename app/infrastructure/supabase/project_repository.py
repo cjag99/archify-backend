@@ -1,12 +1,10 @@
 from uuid import UUID
 
-from urllib3.contrib.emscripten import response
-
-from app.domain.projects.ports import ProjectRepositoryPort
+from app.domain.projects.ports import ProjectPort
 from app.domain.projects.models import ProjectModel
 from .client import supabase_client
 
-class SupabaseProjectRepository(ProjectRepositoryPort):
+class SupabaseProjectRepository(ProjectPort):
     """
     Repository class to manage projects in the Supabase database.
     This class implements the ProjectPort interface, providing methods to save and retrieve projects using the Supabase client.

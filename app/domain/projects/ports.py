@@ -1,9 +1,8 @@
 from abc import ABC, abstractmethod
 from uuid import UUID
 from .models import ProjectModel
-from .dtos import ProjectCreateModel, ProjectUpdateModel
 
-class ProjectRepositoryPort(ABC):
+class ProjectPort(ABC):
     @abstractmethod
     def save_project(self, project: ProjectModel, token: str) -> None:
         """
