@@ -9,7 +9,7 @@ class SupabasePatternCodeRepository(PatternsCodePort):
         self.client = supabase_client
         self.table_name = "patterns_code"
 
-    def save_pattern_code(self, data: PatternsCodeModel, token: str) -> PatternsCodeModel:
+    def save_pattern_code(self, data: PatternsCodeModel, token: str) -> None:
         try:
             pattern_code_dict = data.model_dump(exclude_none=True)
             if pattern_code_dict.get("id") is not None:
