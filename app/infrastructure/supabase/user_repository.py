@@ -98,20 +98,9 @@ class SupabaseUserRepository(UserPort):
         try:
             self.client.postgrest.auth(token)
             response = self.client.from_(self.table_name).select("*").execute()
-            users = []
-            for user_data in response.data:
-                user = UserProfile(
-                    id=UUID(user_data["id"]),
-                    username=user_data.get("username"),
-                    email=user_data.get("email"),
-                    first_name=user_data.get("first_name"),
-                    last_name=user_data.get("last_name"),
-                    is_authorized=user_data.get("is_authorized", False),
-                    role=UserProfileRole(user_data.get("role", "user")),
-                    created_at=datetime.fromisoformat(user_data["created_at"]) if user_data.get("created_at") else None
-                )
-                users.append(user)
-            return users
+            if not getattr(response, "data", None):
+                return None
+            return [UserProfile(**row) for  row in response.data]
         except Exception as e:
             raise Exception(f"Failed to retrieve user profiles: {str(e)}")
         

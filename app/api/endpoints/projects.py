@@ -30,7 +30,7 @@ async def get_projects(
     try:
         projects = service.get_projects_by_user_id(str(user.id), token)
         if not projects:
-            return []
+            return "No projects to show"
         return projects
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))

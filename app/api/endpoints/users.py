@@ -13,12 +13,13 @@ router = APIRouter()
 async def get_all_users(
     service: UserService = Depends(get_user_service),
     user_auth: tuple[UserProfile, str] = Depends(is_user_admin),
-) -> list[UserProfile] | str:
+):
     try:
         token = user_auth[1]
         users = service.get_all_users(token)
         if not users:
             return "No users to show"
+        return users
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
@@ -34,6 +35,7 @@ async def get_profile(
             user = service.get_user_by_id(user_id, token)
             if not user:
                 raise HTTPException(status_code=404, detail="User not found")
+            return user
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
