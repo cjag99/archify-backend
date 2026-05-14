@@ -3,12 +3,14 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
 from app.domain.architectures.services import ArchitectureService
 from app.domain.code_languages.services import CodeLanguagesService
+from app.domain.images.services import ImageServices
 from app.domain.patterns.services import PatternService
 from app.domain.patterns_code.services import PatternCodeService
 from app.domain.users.services import UserService
 from app.infrastructure.supabase.adapters import SupabaseAuthAdapter
 from app.infrastructure.supabase.architecture_repository import SupabaseArchitectureRepository
 from app.infrastructure.supabase.code_language_repository import SupabaseCodeLanguageRepository
+from app.infrastructure.supabase.image_repository import SupabaseImageRepository
 from app.infrastructure.supabase.pattern_code_repository import SupabasePatternCodeRepository
 from app.infrastructure.supabase.pattern_repository import SupabasePatternRepository
 from app.infrastructure.supabase.user_repository import SupabaseUserRepository
@@ -24,6 +26,7 @@ user_service = UserService(user_port=SupabaseUserRepository())
 architecture_service = ArchitectureService(port=SupabaseArchitectureRepository())
 code_language_service = CodeLanguagesService(port=SupabaseCodeLanguageRepository())
 pattern_code_service = PatternCodeService(port=SupabasePatternCodeRepository())
+image_service = ImageServices(port=SupabaseImageRepository())
 
 def get_auth_service() -> AuthService:
     """
@@ -86,3 +89,6 @@ def get_code_language_service() -> CodeLanguagesService:
 
 def get_pattern_code_service() -> PatternCodeService:
     return pattern_code_service
+
+def get_image_service() -> ImageServices:
+    return image_service
