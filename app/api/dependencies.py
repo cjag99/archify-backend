@@ -18,7 +18,7 @@ from app.domain.users.models import UserProfile
 from app.domain.projects.services import ProjectService
 
 auth_service = AuthService(auth_port=SupabaseAuthAdapter(), user_port=SupabaseUserRepository())
-project_service = ProjectService(project_repository=SupabaseProjectRepository())
+project_service = ProjectService(port=SupabaseProjectRepository())
 pattern_service = PatternService(port=SupabasePatternRepository())
 user_service = UserService(user_port=SupabaseUserRepository())
 architecture_service = ArchitectureService(port=SupabaseArchitectureRepository())
