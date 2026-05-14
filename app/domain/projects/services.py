@@ -1,12 +1,12 @@
-from app.domain.projects.ports import ProjectRepositoryPort
+from app.domain.projects.ports import ProjectPort
 from uuid import UUID
 
 from .models import ProjectModel
-from .dtos import ProjectCreateModel, ProjectUpdateModel
+from .dtos import ProjectCreateModel
 
 
 class ProjectService:
-    def __init__(self, project_repository: ProjectRepositoryPort):
+    def __init__(self, project_repository: ProjectPort):
         self.project_repository = project_repository
 
     def create_project(self, project_data: ProjectCreateModel, user_id: UUID, token: str) -> ProjectModel:
