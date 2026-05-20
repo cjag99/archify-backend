@@ -27,3 +27,6 @@ class ProjectService:
 
     def delete_project(self, project_id: str, token: str) -> None:
         self.port.delete_project(project_id, token)
+
+    def get_all_projects(self, token: str) -> list[ProjectModel] | None:
+        return self.port.get_all_projects(token)

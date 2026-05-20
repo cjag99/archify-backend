@@ -28,7 +28,10 @@ async def get_projects(
 ):
     user, token = user_auth
     try:
-        projects = service.get_projects_by_user_id(str(user.id), token)
+        if user and user.is_authorized:
+            projects = service.get_all_projects(token)
+        else:
+            projects = service.get_projects_by_user_id(str(user.id), token)
         if not projects:
             return "No projects to show"
         return projects

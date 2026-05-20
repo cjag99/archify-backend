@@ -14,6 +14,10 @@ class ProjectPort(ABC):
         pass
 
     @abstractmethod
+    def get_all_projects(self, token: str) -> list[ProjectModel] | None:
+        pass
+
+    @abstractmethod
     def get_project_by_id(self, project_id: UUID, token: str) -> ProjectModel | None:
         """
         Retrieves a project from the repository based on its unique identifier.
