@@ -5,7 +5,7 @@ from .models import SettingsModel
 
 class SettingsPort(ABC):
     @abstractmethod
-    def save_setting(self, setting: SettingsModel) -> SettingsModel:
+    def save_setting(self, setting: SettingsModel, token: str) -> SettingsModel:
         pass
 
     @abstractmethod
