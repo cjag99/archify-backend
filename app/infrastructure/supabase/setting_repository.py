@@ -13,7 +13,7 @@ class SupabaseSettingsRepository(SettingsPort):
         self.client = supabase_client
         self.table_name = "settings"
 
-    def save_settings(self, settings: SettingsModel, token: str) -> SettingsModel:
+    def save_setting(self, settings: SettingsModel, token: str) -> SettingsModel:
         try:
             setttings_dict = settings.model_dump(exclude_none=True)
             if setttings_dict.get("id") is not None:
