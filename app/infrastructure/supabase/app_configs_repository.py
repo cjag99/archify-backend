@@ -5,7 +5,7 @@ from app.domain.app_configs.ports import AppConfigPort
 from ...domain.app_configs.models import AppConfigModel
 
 
-class AppConfigService(AppConfigPort):
+class SupabaseAppConfigService(AppConfigPort):
     def __init__(self):
         self.client = supabase_client
         self.table_name = "app_configs"
@@ -77,6 +77,20 @@ class AppConfigService(AppConfigPort):
 
         except Exception as e:
             print(f"Error occurred while retrieving app config: {e}")
+            return None
+
+    def get_enabled_configs(self) -> dict[str, str]:
+        try:
+
+            res = self.client.rpc("get_active_app_configs").execute()
+
+            if not getattr(res, "data", None):
+                return {}
+
+            return {row["key"]: row["value"] for row in res.data}
+
+        except Exception as e:
+            print(f"Error occurred while retrieving enabled keys: {e}")
             return None
 
     def delete_config(self, config_id: UUID, token: str) -> None:

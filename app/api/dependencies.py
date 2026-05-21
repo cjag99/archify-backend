@@ -1,6 +1,7 @@
 from fastapi import Depends, HTTPException, Security, Request
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
+from app.domain.app_configs.services import AppConfigService
 from app.domain.architectures.services import ArchitectureService
 from app.domain.code_languages.services import CodeLanguagesService
 from app.domain.images.services import ImageServices
@@ -8,6 +9,7 @@ from app.domain.patterns.services import PatternService
 from app.domain.patterns_code.services import PatternCodeService
 from app.domain.users.services import UserService
 from app.infrastructure.supabase.adapters import SupabaseAuthAdapter
+from app.infrastructure.supabase.app_configs_repository import SupabaseAppConfigService
 from app.infrastructure.supabase.architecture_repository import SupabaseArchitectureRepository
 from app.infrastructure.supabase.code_language_repository import SupabaseCodeLanguageRepository
 from app.infrastructure.supabase.image_repository import SupabaseImageRepository
@@ -27,6 +29,7 @@ architecture_service = ArchitectureService(port=SupabaseArchitectureRepository()
 code_language_service = CodeLanguagesService(port=SupabaseCodeLanguageRepository())
 pattern_code_service = PatternCodeService(port=SupabasePatternCodeRepository())
 image_service = ImageServices(port=SupabaseImageRepository())
+app_config_service = AppConfigService(port=SupabaseAppConfigService())
 
 def get_auth_service() -> AuthService:
     """
@@ -92,3 +95,6 @@ def get_pattern_code_service() -> PatternCodeService:
 
 def get_image_service() -> ImageServices:
     return image_service
+
+def get_app_config_service() -> AppConfigService:
+    return app_config_service

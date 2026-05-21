@@ -12,8 +12,8 @@ class AppConfigService:
         config = AppConfigModel(**data)
         return  self.port.save_architecture(config)
 
-    def get_configs(self, token: str) -> list[AppConfigModel]:
-        return self.port.get_configs(token)
+    def get_all_configs(self, token: str) -> list[AppConfigModel]:
+        return self.port.get_all_configs(token)
 
     def get_config_by_id(self, config_id: UUID, token: str) -> AppConfigModel | None:
         return self.port.get_config_by_id(config_id, token)
@@ -21,6 +21,8 @@ class AppConfigService:
     def get_config_by_key(self, config_key: str, token: str) -> AppConfigModel | None:
         return self.port.get_config_by_key(config_key, token)
 
+    def get_enabled_configs(self) -> dict[str, str]:
+        return self.port.get_enabled_configs()
     def delete_config(self, config_id: UUID, token: str) -> None:
         return self.port.delete_config(config_id, token)
 

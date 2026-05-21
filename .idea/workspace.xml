@@ -6,9 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="392def26-ec3c-415f-8561-ce367a41e5d7" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/endpoints/projects.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/endpoints/projects.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/projects/ports.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/projects/ports.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/projects/services.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/projects/services.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/dependencies.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/dependencies.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/domain/app_configs/ports.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/app_configs/ports.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/domain/app_configs/services.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/app_configs/services.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/domain/projects/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/projects/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/infrastructure/supabase/app_configs_repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/infrastructure/supabase/app_configs_repository.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,6 +122,6 @@
     <option name="version" value="3" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/archify_backend$Unnamed.coverage" NAME="Unnamed Coverage Results" MODIFIED="1779282040817" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/archify_backend$Unnamed.coverage" NAME="Unnamed Coverage Results" MODIFIED="1779361568656" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>

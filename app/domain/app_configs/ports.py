@@ -20,5 +20,9 @@ class AppConfigPort(ABC):
         pass
 
     @abstractmethod
+    def get_enabled_configs(self,) -> dict[str, str]:
+        pass
+
+    @abstractmethod
     def delete_config(self, config_id: UUID, token: str) -> None:
         pass
