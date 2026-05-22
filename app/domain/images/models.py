@@ -10,6 +10,7 @@ class ImageUsage(str, Enum):
     LOGO = "project_logo"
     AVATAR = "avatar"
     REACT_NODE = "react_node"
+    CODE_LOGO = "code_logo"
 
 class ImageModel(BaseModel):
     id: UUID | None = None
