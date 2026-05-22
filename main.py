@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.api.endpoints import auth, projects, patterns, architectures, users, code_language, patterns_code, images, \
-    app_configs, settings
+    app_configs, settings, profile_settings
 
 app = FastAPI()
 origins = [
@@ -28,3 +28,4 @@ app.include_router(patterns_code.router, prefix="/patterns-code", tags=["pattern
 app.include_router(images.router, prefix="/images", tags=["images"])
 app.include_router(app_configs.router, prefix="/app-configs", tags=["app-configs"])
 app.include_router(settings.router, prefix="/settings", tags=["settings"])
+app.include_router(profile_settings.router, prefix="/profile-settings", tags=["profile-settings"])

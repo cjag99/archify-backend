@@ -42,15 +42,31 @@ class SupabaseProfileSettingRepository(ProfileSettingsPort):
         except Exception as e:
             print(f"Error occurred while retrieving profile settings: {e}")
 
-    def get_profile_setting_by_id(self, profile_setting_id: UUID, token: str) -> ProfileSettingsModel:
+    def get_profile_setting_by_id(self, user_id: UUID, profile_setting_id: UUID, token: str) -> ProfileSettingsModel:
         try:
             self.client.postgrest.auth(token)
-            response = self.client.from_(self.table_name).select("*").eq("id", str(profile_setting_id)).execute()
+            response = (self.client.from_(self.table_name).select("*")
+                        .eq("settings_id", str(profile_setting_id))
+                        .eq("profile_id", str(user_id))
+                        .execute())
 
             if not getattr(response, "data", None):
                 return None
 
             return ProfileSettingsModel(**response.data[0])
+
+        except Exception as e:
+            print(f"Error occurred while retrieving profile setting: {e}")
+
+    def get_user_settings(self, user_id: UUID, token: str) -> list[ProfileSettingsModel]:
+        try:
+            self.client.postgrest.auth(token)
+            response = self.client.from_(self.table_name).select("*").eq("profile_id", str(user_id)).execute()
+
+            if not getattr(response, "data", None):
+                return None
+
+            return [ProfileSettingsModel(**row) for row in response.data]
 
         except Exception as e:
             print(f"Error occurred while retrieving profile setting: {e}")

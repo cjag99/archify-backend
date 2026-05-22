@@ -14,7 +14,11 @@ class ProfileSettingsPort(ABC):
         pass
 
     @abstractmethod
-    def get_profile_setting_by_id(self, profile_setting_id: UUID, token: str) -> ProfileSettingsModel:
+    def get_profile_setting_by_id(self, user_id: UUID, profile_setting_id: UUID, token: str) -> ProfileSettingsModel:
+        pass
+
+    @abstractmethod
+    def get_user_settings(self, user_id: UUID, token: str) -> list[ProfileSettingsModel]:
         pass
 
     @abstractmethod

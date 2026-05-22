@@ -7,6 +7,7 @@ from app.domain.code_languages.services import CodeLanguagesService
 from app.domain.images.services import ImageServices
 from app.domain.patterns.services import PatternService
 from app.domain.patterns_code.services import PatternCodeService
+from app.domain.profile_settings.services import ProfileSettingService
 from app.domain.settings.services import SettingsService
 from app.domain.users.services import UserService
 from app.infrastructure.supabase.adapters import SupabaseAuthAdapter
@@ -16,6 +17,7 @@ from app.infrastructure.supabase.code_language_repository import SupabaseCodeLan
 from app.infrastructure.supabase.image_repository import SupabaseImageRepository
 from app.infrastructure.supabase.pattern_code_repository import SupabasePatternCodeRepository
 from app.infrastructure.supabase.pattern_repository import SupabasePatternRepository
+from app.infrastructure.supabase.profile_setting_repository import SupabaseProfileSettingRepository
 from app.infrastructure.supabase.setting_repository import SupabaseSettingsRepository
 from app.infrastructure.supabase.user_repository import SupabaseUserRepository
 from app.infrastructure.supabase.project_repository import SupabaseProjectRepository
@@ -33,6 +35,8 @@ pattern_code_service = PatternCodeService(port=SupabasePatternCodeRepository())
 image_service = ImageServices(port=SupabaseImageRepository())
 app_config_service = AppConfigService(port=SupabaseAppConfigService())
 settings_service = SettingsService(port=SupabaseSettingsRepository())
+profile_settings_service = ProfileSettingService(port=SupabaseProfileSettingRepository())
+
 def get_auth_service() -> AuthService:
     """
     Dependency function to provide an instance of AuthService.
@@ -103,3 +107,6 @@ def get_app_config_service() -> AppConfigService:
 
 def get_settings_service() -> SettingsService:
     return settings_service
+
+def get_profile_settings_service() -> ProfileSettingService:
+    return profile_settings_service
