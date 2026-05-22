@@ -1,7 +1,5 @@
-from urllib import response
 from uuid import UUID
 
-from app.domain import profile_settings
 from app.domain.profile_settings.dtos import ProfileSettingsRequest
 from app.domain.profile_settings.models import ProfileSettingsModel
 from app.domain.profile_settings.ports import ProfileSettingsPort
