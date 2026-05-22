@@ -1,13 +1,12 @@
 from uuid import UUID
 from abc import ABC, abstractmethod
 
-from app.domain.profile_settings.dtos import ProfileSettingsRequest
-from app.domain.profile_settings.models import ProfileSettingsModel
+from .models import ProfileSettingsModel
 
 
 class ProfileSettingsPort(ABC):
     @abstractmethod
-    def save_profile_setting(self, data: ProfileSettingsRequest, token: str) -> ProfileSettingsModel:
+    def save_profile_setting(self, data: ProfileSettingsModel, token: str) -> ProfileSettingsModel:
         pass
 
     @abstractmethod
