@@ -1,5 +1,6 @@
 from uuid import UUID
 from fastapi import APIRouter, File, UploadFile, Depends, HTTPException
+from fastapi.params import Query
 
 from app.api.dependencies import get_image_service, get_current_user, is_user_admin
 from app.domain.images.dtos import ImageRequestModel
@@ -12,7 +13,7 @@ router = APIRouter()
 
 @router.post("/")
 async def upload_image(
-        usage_type: ImageUsage,
+        usage_type: ImageUsage = Query(...),
         image: UploadFile = File(),
         service: ImageServices = Depends(get_image_service),
         user_auth: tuple[UserProfile, str] = Depends(get_current_user),
@@ -20,13 +21,14 @@ async def upload_image(
     try:
         user, token = user_auth
         user_uuid = str(user.id)
-        image.content = await image.read()
+        image_bytes = await image.read()
+        content_type = image.content_type or "image/jpeg"
         image_path = f"{user_uuid}/{image.filename}"
 
         storage_response = supabase_client.storage.from_("archify").upload(
             path=image_path,
-            file=image.content,
-            file_options={"content-type": image.content_type}
+            file=image_bytes,
+            file_options={"contentType": content_type}
         )
 
         image_url = supabase_client.storage.from_("archify").get_public_url(image_path)
@@ -35,8 +37,12 @@ async def upload_image(
             url=image_url,
             usage_type=usage_type
         )
-        service.create_image(data, user.id, token)
+        created = service.create_image(data, user_uuid, token)
+        return created.model_dump()
+
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.get("/")

@@ -28,6 +28,9 @@ class SupabaseCodeLanguageRepository(CodeLanguagesPort):
             if code_language_dict.get("id") is not None:
                 code_language_dict["id"] = str(code_language_dict["id"])
 
+            if code_language_dict.get("icon") is not None:
+                code_language_dict["icon"] = str(code_language_dict["icon"])
+                
             if code_language_dict.get("created_at") is not None:
                 code_language_dict["created_at"] = code_language_dict["created_at"].isoformat()
 

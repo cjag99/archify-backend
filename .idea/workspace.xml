@@ -5,18 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="392def26-ec3c-415f-8561-ce367a41e5d7" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/dependencies.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/dependencies.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/profile_settings/ports.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/profile_settings/ports.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/profile_settings/services.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/profile_settings/services.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/infrastructure/supabase/profile_setting_repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/infrastructure/supabase/profile_setting_repository.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/endpoints/images.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/endpoints/images.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/infrastructure/supabase/code_language_repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/infrastructure/supabase/code_language_repository.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/infrastructure/supabase/image_repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/infrastructure/supabase/image_repository.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="EmbeddingIndexingInfo">
+    <option name="cachedIndexableFilesCount" value="97" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -31,6 +31,69 @@
   <component name="HttpClientOnboardingState">{
   &quot;isOnboardingCommentShown&quot;: true
 }</component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.0000000000270106" />
+      <entry key="MS500" value="1.009825845815438" />
+      <entry key="S2" value="1.5605900923148655" />
+      <entry key="S5" value="2.4560644536931115" />
+      <entry key="S10" value="3.0677586810225157" />
+      <entry key="S30" value="3.6489567495915547" />
+      <entry key="S60" value="4.004542504958427" />
+      <entry key="M2" value="5.307669441816229" />
+      <entry key="M5" value="13.395775173158064" />
+      <entry key="M10" value="29.811712120944087" />
+      <entry key="M15" value="43.21758000387122" />
+      <entry key="M30" value="67.6995874912871" />
+      <entry key="H1" value="87.80723090611944" />
+      <entry key="H2" value="101.00491206171061" />
+      <entry key="H4" value="108.61258156765382" />
+      <entry key="D1" value="115.54412535924435" />
+      <entry key="W1" value="116.79054531172383" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="1.7058490546372314E-21" />
+      <entry key="MS500" value="7.02082454437625E-5" />
+      <entry key="S2" value="0.0915370748324971" />
+      <entry key="S5" value="0.3842720630491012" />
+      <entry key="S10" value="0.6198969027213151" />
+      <entry key="S30" value="0.8594663031564472" />
+      <entry key="S60" value="1.059479182807808" />
+      <entry key="M2" value="1.5940065482210068" />
+      <entry key="M5" value="2.667552563764953" />
+      <entry key="M10" value="3.4666295441775525" />
+      <entry key="M15" value="3.858630936940499" />
+      <entry key="M30" value="4.3551607458299495" />
+      <entry key="H1" value="4.655565401856595" />
+      <entry key="H2" value="4.821763761254031" />
+      <entry key="H4" value="4.909306881908177" />
+      <entry key="D1" value="4.984659471330458" />
+      <entry key="W1" value="4.99780290179105" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="0.00909948115758281" />
+      <entry key="MS500" value="0.3975825431116903" />
+      <entry key="S2" value="1.3066672646029625" />
+      <entry key="S5" value="2.566280609290508" />
+      <entry key="S10" value="3.500471527859785" />
+      <entry key="S30" value="4.429388671749513" />
+      <entry key="S60" value="5.015934857286763" />
+      <entry key="M2" value="6.86149006921015" />
+      <entry key="M5" value="16.029229372739326" />
+      <entry key="M10" value="33.25328121937368" />
+      <entry key="M15" value="47.056753829518215" />
+      <entry key="M30" value="72.0432303776407" />
+      <entry key="H1" value="92.45648150909504" />
+      <entry key="H2" value="105.82336182312417" />
+      <entry key="H4" value="113.52018975058411" />
+      <entry key="D1" value="120.52849568712023" />
+      <entry key="W1" value="121.78830675649765" />
+    </decayedShown>
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5,
   &quot;fromUser&quot;: false
@@ -46,17 +109,24 @@
     &quot;FastAPI.Unnamed.executor&quot;: &quot;Run&quot;,
     &quot;HTTP Request.generated-requests | #1.executor&quot;: &quot;Run&quot;,
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
     &quot;augment.onboarding.workspace.first.indexed./Users/joseenriqueaguilar/projects/archify-backend&quot;: &quot;true&quot;,
     &quot;augment.onboarding.workspace.summary.shown.8f9fb18b4041865ea281828df1341b74119ca23cb91d7cca0f432f8959e61e6f&quot;: &quot;true&quot;,
     &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/joseenriqueaguilar/projects/archify-backend&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;ml.llm.LLMThirdPartyAiProvidersConfigurable&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
     &quot;ts.external.directory.path&quot;: &quot;/Users/joseenriqueaguilar/Applications/PyCharm.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
@@ -64,6 +134,9 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\cjag9\Documents\archify\archify-backend" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -142,6 +215,9 @@
       <workItem from="1779274299360" duration="1104000" />
       <workItem from="1779277526703" duration="2344000" />
       <workItem from="1779433994596" duration="4323000" />
+      <workItem from="1779529125737" duration="3465000" />
+      <workItem from="1779616516302" duration="7183000" />
+      <workItem from="1779640856495" duration="460000" />
     </task>
     <servers />
   </component>
@@ -149,6 +225,6 @@
     <option name="version" value="3" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/archify_backend$Unnamed.coverage" NAME="Unnamed Coverage Results" MODIFIED="1779378271055" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/archify_backend$Unnamed.coverage" NAME="Unnamed Coverage Results" MODIFIED="1779641085750" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>

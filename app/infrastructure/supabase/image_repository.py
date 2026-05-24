@@ -16,7 +16,10 @@ class SupabaseImageRepository(ImagePort):
             image_dict = image.model_dump(exclude_none=True)
             if image_dict.get("id") is not None:
                 image_dict["id"] = str(image_dict["id"])
-                
+
+            if image_dict.get("user_id") is not None:
+                image_dict["user_id"] = str(image_dict["user_id"])
+
             if image_dict.get("created_at") is not None:
                 image_dict["created_at"] = image_dict["created_at"].isoformat()
                 
