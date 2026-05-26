@@ -57,18 +57,20 @@ async def get_project(
 async def delete_project(
     project_id: UUID,
     service: ProjectService = Depends(get_project_service),
-    user_auth: tuple[str, UserProfile] = Depends(get_current_user)
+    user_auth: tuple[UserProfile, str] = Depends(get_current_user)
 ):
     user, token = user_auth
     
     try:
         project = service.get_project_by_id(str(project_id), token)
-        if not project or project.user_id != user.id:
+        if not project or (project.user_id != user.id and not user.is_authorized):
             raise HTTPException(status_code=404, detail="Project not found")
         
-        service.delete_project(str(project_id), token)
+        service.delete_project(project_id, token)
         return {"message": "Project deleted successfully"}
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         raise HTTPException(status_code=400, detail=str(e))
 
 @router.patch("/{project_id}")

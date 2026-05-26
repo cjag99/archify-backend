@@ -102,11 +102,13 @@ async def delete_image(
 ):
     try:
         user, token = user_auth
-        image = service.get_image_by_id(user.id, image_id, token)
+        image = service.get_image_by_id(user_id=user.id, image_id=image_id, token=token)
         if image:
             supabase_client.storage.from_("archify").remove(image.url)
             service.delete_image(image_id, token)
             return
         raise HTTPException(status_code=404, detail="Image not found")
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         raise HTTPException(status_code=400, detail=str(e))

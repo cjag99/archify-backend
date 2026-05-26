@@ -19,13 +19,13 @@ class ProjectService:
         self.port.save_project(project, token)
         return project
 
-    def get_project_by_id(self, project_id: str, token: str) -> ProjectModel | None:
+    def get_project_by_id(self, project_id: UUID, token: str) -> ProjectModel | None:
         return self.port.get_project_by_id(project_id, token)
 
-    def get_projects_by_user_id(self, user_id: str, token: str) -> list[ProjectModel] | None:
+    def get_projects_by_user_id(self, user_id: UUID, token: str) -> list[ProjectModel] | None:
         return self.port.get_projects_by_user_id(user_id, token)
 
-    def delete_project(self, project_id: str, token: str) -> None:
+    def delete_project(self, project_id: UUID, token: str) -> None:
         self.port.delete_project(project_id, token)
 
     def get_all_projects(self, token: str) -> list[ProjectModel] | None:

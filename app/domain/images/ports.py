@@ -9,7 +9,7 @@ class ImagePort(ABC):
         pass
 
     @abstractmethod
-    def get_image_by_id(self, image_id: UUID, token: str) -> ImageModel | None:
+    def get_image_by_id(self, user_id: UUID, image_id: UUID, token: str) -> ImageModel | None:
         pass
 
     @abstractmethod

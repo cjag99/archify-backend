@@ -1,7 +1,4 @@
 from uuid import UUID
-from datetime import datetime
-
-from supabase_auth.helpers import model_dump
 
 from app.domain.settings.models import SettingsModel
 from app.domain.settings.ports import SettingsPort

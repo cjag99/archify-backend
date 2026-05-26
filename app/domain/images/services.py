@@ -19,7 +19,7 @@ class ImageServices:
        return image
 
     def get_image_by_id(self, user_id: UUID, image_id: UUID, token: str) -> ImageModel | None:
-        return self.port.get_image_by_id(image_id, token)
+        return self.port.get_image_by_id(user_id=user_id, image_id=image_id, token=token)
 
     def get_all_images(self, token: str) -> list[ImageModel] | None:
         return self.port.get_all_images(token)
