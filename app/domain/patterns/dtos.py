@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from pydantic import BaseModel, ConfigDict, field_validator
 
 from app.domain.utils import sanitize_string
@@ -9,6 +11,7 @@ class PatternRequestModel(BaseModel):
     name: str
     description: str | None = None
     base_structure: JsonDict | None = None
+    image_id: UUID | None = None
 
     @field_validator("name", "description", mode="before")
     @classmethod

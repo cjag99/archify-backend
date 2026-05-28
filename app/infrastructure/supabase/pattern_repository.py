@@ -30,6 +30,9 @@ class SupabasePatternRepository(PatternPort):
             if pattern_dict.get("created_at") is not None:
                 pattern_dict["created_at"] = pattern_dict["created_at"].isoformat()
 
+            if pattern_dict.get("image_id") is not None:
+                pattern_dict["image_id"] = str(pattern_dict["image_id"])
+
             self.client.postgrest.auth(token)
             response = self.client.from_(self.table_name).upsert(pattern_dict).execute()
             if hasattr(response, 'error') and response.error:
@@ -40,6 +43,10 @@ class SupabasePatternRepository(PatternPort):
                 res_data = response.data[0]
                 if not pattern.id and res_data.get("id"):
                     pattern.id = UUID(res_data["id"])
+
+                if not pattern.image_id and res_data.get("image_id"):
+                    pattern.image_id = UUID(res_data["image_id"])
+
                 if not pattern.created_at and res_data.get("created_at"):
                     from datetime import datetime
                     pattern.created_at = datetime.fromisoformat(res_data["created_at"].replace("Z", "+00:00"))

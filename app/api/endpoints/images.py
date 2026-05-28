@@ -1,3 +1,4 @@
+from urllib.parse import urlparse, unquote
 from uuid import UUID
 from fastapi import APIRouter, File, UploadFile, Depends, HTTPException
 from fastapi.params import Query
@@ -96,18 +97,45 @@ async def get_image_by_id(
 
 @router.delete("/{image_id}")
 async def delete_image(
-        image_id: UUID,
-        service: ImageServices = Depends(get_image_service),
-        user_auth: tuple[UserProfile, str] = Depends(is_user_admin)
+    image_id: UUID,
+    service: ImageServices = Depends(get_image_service),
+    user_auth: tuple[UserProfile, str] = Depends(is_user_admin)
 ):
     try:
         user, token = user_auth
-        image = service.get_image_by_id(user_id=user.id, image_id=image_id, token=token)
-        if image:
-            supabase_client.storage.from_("archify").remove(image.url)
-            service.delete_image(image_id, token)
-            return
-        raise HTTPException(status_code=404, detail="Image not found")
+
+        image = service.get_image_by_id(
+            user_id=user.id,
+            image_id=image_id,
+            token=token
+        )
+
+        if not image:
+            raise HTTPException(status_code=404, detail="Image not found")
+
+        bucket_name = "archify"
+
+        parsed = urlparse(image.url)
+
+        path_parts = parsed.path.split(f"/{bucket_name}/")
+
+        if len(path_parts) < 2:
+            raise Exception("Invalid storage path")
+
+        file_path = unquote(path_parts[1])
+
+        print(file_path)
+
+        result = supabase_client.storage \
+            .from_(bucket_name) \
+            .remove([file_path])
+
+        print(result)
+
+        service.delete_image(image_id, token)
+
+        return {"success": True}
+
     except Exception as e:
         import traceback
         traceback.print_exc()

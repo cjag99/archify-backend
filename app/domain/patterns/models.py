@@ -19,6 +19,7 @@ class PatternModel(BaseModel):
     name: str
     description: str
     base_structure: JsonDict | None = None
+    image_id: UUID | None = None
     created_at: datetime | None = None
 
     @field_validator("name", "description", mode="before")

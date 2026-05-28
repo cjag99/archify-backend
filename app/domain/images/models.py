@@ -11,6 +11,7 @@ class ImageUsage(str, Enum):
     AVATAR = "avatar"
     REACT_NODE = "react_node"
     CODE_LOGO = "code_logo"
+    PATTERN_GRAPHIC = "pattern_graphic"
 
 class ImageModel(BaseModel):
     id: UUID | None = None

@@ -7,11 +7,11 @@
     <list default="true" id="392def26-ec3c-415f-8561-ce367a41e5d7" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/api/endpoints/images.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/endpoints/images.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/endpoints/projects.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/endpoints/projects.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/images/ports.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/images/ports.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/images/services.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/images/services.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/projects/services.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/projects/services.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/infrastructure/supabase/setting_repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/infrastructure/supabase/setting_repository.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/domain/images/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/images/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/domain/patterns/dtos.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/patterns/dtos.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/domain/patterns/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/patterns/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/domain/patterns/services.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/patterns/services.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/infrastructure/supabase/pattern_repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/infrastructure/supabase/pattern_repository.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,6 +31,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/app/domain/patterns/dtos.py" root0="SKIP_INSPECTION" />
+  </component>
   <component name="HttpClientOnboardingState">{
   &quot;isOnboardingCommentShown&quot;: true
 }</component>
@@ -40,61 +43,61 @@
   </component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.000000000163499" />
-      <entry key="MS500" value="1.011033237534256" />
-      <entry key="S2" value="1.32409754554634" />
-      <entry key="S5" value="1.6371940869790171" />
-      <entry key="S10" value="1.800293029693571" />
-      <entry key="S30" value="2.152677202369655" />
-      <entry key="S60" value="2.8258630702659455" />
-      <entry key="M2" value="4.0744384357427395" />
-      <entry key="M5" value="6.510084767111945" />
-      <entry key="M10" value="8.246307922972848" />
-      <entry key="M15" value="9.026826107271525" />
-      <entry key="M30" value="10.538448869543403" />
-      <entry key="H1" value="18.99820748504403" />
-      <entry key="H2" value="43.27279472401931" />
-      <entry key="H4" value="74.57978080902268" />
-      <entry key="D1" value="122.68148879391912" />
-      <entry key="W1" value="134.00415194205294" />
+      <entry key="MS100" value="0.0017002940689377416" />
+      <entry key="MS500" value="0.27932178451805495" />
+      <entry key="S2" value="0.7269862586601552" />
+      <entry key="S5" value="0.8802590162900085" />
+      <entry key="S10" value="0.9382949234004357" />
+      <entry key="S30" value="1.0455055627366374" />
+      <entry key="S60" value="1.354229700014551" />
+      <entry key="M2" value="1.8692222383059611" />
+      <entry key="M5" value="3.6133747985163978" />
+      <entry key="M10" value="7.441410599668089" />
+      <entry key="M15" value="10.93724666285298" />
+      <entry key="M30" value="20.578579127905925" />
+      <entry key="H1" value="36.857999897488206" />
+      <entry key="H2" value="65.58626619066702" />
+      <entry key="H4" value="103.89736348403862" />
+      <entry key="D1" value="170.1622635388528" />
+      <entry key="W1" value="186.98862834970672" />
     </decayedCancelled>
     <decayedSelected>
-      <entry key="MS100" value="1.3937013283835906E-15" />
-      <entry key="MS500" value="0.0010704606882511718" />
-      <entry key="S2" value="0.217506124517954" />
-      <entry key="S5" value="0.7711353799768773" />
-      <entry key="S10" value="1.226976742084343" />
-      <entry key="S30" value="1.8377127637604787" />
-      <entry key="S60" value="2.578708780488664" />
-      <entry key="M2" value="3.627119950822063" />
-      <entry key="M5" value="4.809662239736207" />
-      <entry key="M10" value="5.354763056347357" />
-      <entry key="M15" value="5.558401626672897" />
-      <entry key="M30" value="5.847468394020648" />
-      <entry key="H1" value="6.7477551816582375" />
-      <entry key="H2" value="8.878071651592068" />
-      <entry key="H4" value="11.388703251888973" />
-      <entry key="D1" value="15.023907345846096" />
-      <entry key="W1" value="15.854404549443384" />
+      <entry key="MS100" value="1.0" />
+      <entry key="MS500" value="1.0" />
+      <entry key="S2" value="1.0" />
+      <entry key="S5" value="1.0" />
+      <entry key="S10" value="1.0" />
+      <entry key="S30" value="1.0000000000087692" />
+      <entry key="S60" value="1.0000057195118572" />
+      <entry key="M2" value="1.0047382170801318" />
+      <entry key="M5" value="1.2695272954389598" />
+      <entry key="M10" value="2.0667311157562054" />
+      <entry key="M15" value="2.8354752804048617" />
+      <entry key="M30" value="5.070573819280575" />
+      <entry key="H1" value="8.580711062130764" />
+      <entry key="H2" value="13.03816854566827" />
+      <entry key="H4" value="17.56947039197549" />
+      <entry key="D1" value="24.173022674070513" />
+      <entry key="W1" value="25.72577470010701" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="0.010746420609972026" />
-      <entry key="MS500" value="0.415213141474637" />
-      <entry key="S2" value="1.2897849196265156" />
-      <entry key="S5" value="2.2449365029538897" />
-      <entry key="S10" value="2.919472420540199" />
-      <entry key="S30" value="3.937488674148648" />
-      <entry key="S60" value="5.360236147846259" />
-      <entry key="M2" value="7.664349496333815" />
-      <entry key="M5" value="11.296516175798292" />
-      <entry key="M10" value="13.587119683636887" />
-      <entry key="M15" value="14.575288371933894" />
-      <entry key="M30" value="16.380470302111437" />
-      <entry key="H1" value="25.742468104765447" />
-      <entry key="H2" value="52.14818384000944" />
-      <entry key="H4" value="85.9665834750883" />
-      <entry key="D1" value="137.70494301502802" />
-      <entry key="W1" value="149.8584872856425" />
+      <entry key="MS100" value="0.0021105779058989017" />
+      <entry key="MS500" value="0.48159682771392653" />
+      <entry key="S2" value="1.397041728603339" />
+      <entry key="S5" value="1.7322174882416987" />
+      <entry key="S10" value="1.8612945195137427" />
+      <entry key="S30" value="2.016784780291339" />
+      <entry key="S60" value="2.334404561790671" />
+      <entry key="M2" value="2.859432880435749" />
+      <entry key="M5" value="4.871843976079363" />
+      <entry key="M10" value="9.497353806986343" />
+      <entry key="M15" value="13.762391952415003" />
+      <entry key="M30" value="25.6397421626332" />
+      <entry key="H1" value="45.43084395927928" />
+      <entry key="H2" value="78.61853387323097" />
+      <entry key="H4" value="121.46288302782436" />
+      <entry key="D1" value="194.3343831988944" />
+      <entry key="W1" value="212.7142657964362" />
     </decayedShown>
   </component>
   <component name="ProjectColorInfo">{
@@ -106,34 +109,34 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
-    &quot;FastAPI.Unnamed.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.generated-requests | #1.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;augment.onboarding.workspace.first.indexed./Users/joseenriqueaguilar/projects/archify-backend&quot;: &quot;true&quot;,
-    &quot;augment.onboarding.workspace.summary.shown.8f9fb18b4041865ea281828df1341b74119ca23cb91d7cca0f432f8959e61e6f&quot;: &quot;true&quot;,
-    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/joseenriqueaguilar/projects/archify-backend&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;ml.llm.LLMThirdPartyAiProvidersConfigurable&quot;,
-    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Users/joseenriqueaguilar/Applications/PyCharm.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "FastAPI.Unnamed.executor": "Run",
+    "HTTP Request.generated-requests | #1.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "augment.onboarding.workspace.first.indexed./Users/joseenriqueaguilar/projects/archify-backend": "true",
+    "augment.onboarding.workspace.summary.shown.8f9fb18b4041865ea281828df1341b74119ca23cb91d7cca0f432f8959e61e6f": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "main",
+    "junie.onboarding.icon.badge.shown": "true",
+    "last_opened_file_path": "/Users/joseenriqueaguilar/projects/archify-backend",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "to.speed.mode.migration.done": "true",
+    "ts.external.directory.path": "/Users/joseenriqueaguilar/Applications/PyCharm.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
@@ -222,14 +225,27 @@
       <workItem from="1779616516302" duration="7183000" />
       <workItem from="1779640856495" duration="731000" />
       <workItem from="1779705836105" duration="2619000" />
-      <workItem from="1779794188318" duration="15675000" />
+      <workItem from="1779794188318" duration="15724000" />
+      <workItem from="1779888929557" duration="2915000" />
+      <workItem from="1779957854985" duration="8540000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/archify_backend$Unnamed.coverage" NAME="Unnamed Coverage Results" MODIFIED="1779814041599" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/archify_backend$Unnamed.coverage" NAME="Unnamed Coverage Results" MODIFIED="1779976786314" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>

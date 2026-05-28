@@ -11,7 +11,8 @@ class PatternService:
         pattern = PatternModel(
             name=data.name,
             description=data.description,
-            base_structure=data.base_structure
+            base_structure=data.base_structure,
+            image_id=data.image_id,
         )
         self.port.save_pattern(pattern, token)
         return  pattern
@@ -27,14 +28,9 @@ class PatternService:
 
     def update_pattern(self, pattern_id: UUID, data: PatternRequestModel, token: str) -> None:
         pattern = self.port.get_pattern_by_id(pattern_id)
-        if pattern:
-            if pattern.name != data.name:
-                pattern.name = data.name
+        new_pattern = PatternModel(**data.model_dump(exclude_none=True))
 
-            if data.description is not None and pattern.description != data.description:
-                pattern.description = data.description
-                
-            if data.base_structure is not None and pattern.base_structure != data.base_structure:
-                pattern.base_structure = data.base_structure
+        new_pattern.id = pattern_id
 
-            self.port.save_pattern(pattern, token)
+        if pattern != new_pattern:
+            self.port.save_pattern(new_pattern, token)
