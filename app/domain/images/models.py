@@ -3,7 +3,7 @@ from uuid import UUID
 from pydantic import BaseModel, ConfigDict, field_validator
 from datetime import datetime
 
-from app.domain.utils import sanitize_string
+from app.domain.utils import normalize_image_url, sanitize_string
 
 
 class ImageUsage(str, Enum):
@@ -21,9 +21,14 @@ class ImageModel(BaseModel):
     usage_type: ImageUsage
     created_at: datetime | None = None
 
-    @field_validator("file_name", "url", mode="before")
+    @field_validator("file_name", mode="before")
     @classmethod
-    def validate_field(cls, value: str) -> str:
+    def validate_file_name(cls, value: str) -> str:
         return sanitize_string(value)
+
+    @field_validator("url", mode="before")
+    @classmethod
+    def validate_url(cls, value: str) -> str:
+        return normalize_image_url(value)
 
     model_config = ConfigDict(from_attributes=True, strict=False)

@@ -1,6 +1,6 @@
 from uuid import UUID
 
-from app.domain.images.models import ImageModel
+from app.domain.images.models import ImageModel, ImageUsage
 from app.domain.images.ports import ImagePort
 from .client import supabase_client
 from .user_repository import SupabaseUserRepository
@@ -44,19 +44,29 @@ class SupabaseImageRepository(ImagePort):
     def get_image_by_id(self, user_id: UUID, image_id: UUID, token: str) -> ImageModel | None:
         try:
             user = SupabaseUserRepository().get_user_by_id(user_id, token)
+            if not user:
+                return None
+
             self.client.postgrest.auth(token)
-            if user.is_authorized:
-                response = self.client.from_(self.table_name).select("*").eq("id", str(image_id)).execute()
-            else:
-                response = (self.client.from_(self.table_name).select("*")
-                            .eq("id", str(image_id))
-                            .eq("user_id", str(user_id))
-                            .execute())
+            response = (
+                self.client.from_(self.table_name)
+                .select("*")
+                .eq("id", str(image_id))
+                .execute()
+            )
 
             if not getattr(response, "data", None):
                 return None
 
-            return ImageModel(**response.data[0])
+            image = ImageModel(**response.data[0])
+            shared_usage = {
+                ImageUsage.CODE_LOGO,
+                ImageUsage.PATTERN_GRAPHIC,
+            }
+            if user.is_authorized or image.user_id == user_id or image.usage_type in shared_usage:
+                return image
+
+            return None
 
         except Exception as e:
             print(f"Error occurred while retrieving image: {e}")

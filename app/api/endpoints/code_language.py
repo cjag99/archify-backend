@@ -1,25 +1,51 @@
 from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException
 
-from app.api.dependencies import get_code_language_service, get_current_user, is_user_admin
-from app.domain.code_languages.dtos import CodeLanguagesRequest
+from app.api.dependencies import (
+    get_code_language_service,
+    get_current_user,
+    get_image_service,
+    is_user_admin,
+)
+from app.domain.code_languages.dtos import CodeLanguagesRequest, CodeLanguagesResponse
 from app.domain.code_languages.models import CodeLanguagesModel
 from app.domain.code_languages.services import CodeLanguagesService
+from app.domain.images.services import ImageServices
 from app.domain.users.models import UserProfile
+from app.infrastructure.supabase.storage import refresh_storage_url
 
 router = APIRouter()
+
+
+def _with_icon_url(
+    code_language: CodeLanguagesModel,
+    user_id: UUID,
+    token: str,
+    image_service: ImageServices,
+) -> CodeLanguagesResponse:
+    icon_url = None
+    if code_language.icon:
+        image = image_service.get_image_by_id(user_id, code_language.icon, token)
+        if image:
+            icon_url = refresh_storage_url(image.url)
+    return CodeLanguagesResponse.from_model(code_language, icon_url=icon_url)
+
 
 @router.get("/")
 async def get_all_code_languages(
         service: CodeLanguagesService = Depends(get_code_language_service),
+        image_service: ImageServices = Depends(get_image_service),
         user_auth: tuple[UserProfile, str] = Depends(get_current_user)
-) -> list[CodeLanguagesModel] | str:
+) -> list[CodeLanguagesResponse] | str:
     try:
-        token = user_auth[1]
+        user, token = user_auth
         code_languages = service.get_all_code_languages(token)
         if not code_languages:
             return "No code languages to show"
-        return code_languages
+        return [
+            _with_icon_url(lang, user.id, token, image_service)
+            for lang in code_languages
+        ]
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
@@ -27,14 +53,15 @@ async def get_all_code_languages(
 async  def get_code_language_by_id(
         code_language_id: UUID,
         service: CodeLanguagesService = Depends(get_code_language_service),
+        image_service: ImageServices = Depends(get_image_service),
         user_auth: tuple[UserProfile, str] = Depends(get_current_user)
-) -> CodeLanguagesModel:
+) -> CodeLanguagesResponse:
     try:
-        token = user_auth[1]
+        user, token = user_auth
         code_language = service.get_code_language_by_id(code_language_id, token)
         if not code_language:
             raise HTTPException(status_code=404, detail="Code language not found")
-        return code_language
+        return _with_icon_url(code_language, user.id, token, image_service)
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 

@@ -1,6 +1,13 @@
 import html
 
 
+def normalize_image_url(value: str) -> str:
+    """Keep storage URLs intact; undo legacy html.escape on read."""
+    if isinstance(value, str):
+        return html.unescape(value.strip())
+    return value
+
+
 def sanitize_string(value: str) -> str:
     """
     Sanitizes a string by escaping HTML characters to prevent XSS attacks.

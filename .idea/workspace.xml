@@ -6,12 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="392def26-ec3c-415f-8561-ce367a41e5d7" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/endpoints/patterns_code.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/endpoints/patterns_code.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/patterns_code/dtos.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/patterns_code/dtos.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/patterns_code/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/patterns_code/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/patterns_code/ports.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/patterns_code/ports.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/patterns_code/services.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/patterns_code/services.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/infrastructure/supabase/pattern_code_repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/infrastructure/supabase/pattern_code_repository.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/endpoints/code_language.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/endpoints/code_language.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/endpoints/images.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/endpoints/images.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/domain/code_languages/dtos.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/code_languages/dtos.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/domain/images/dtos.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/images/dtos.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/domain/images/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/images/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/domain/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/infrastructure/supabase/image_repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/infrastructure/supabase/image_repository.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -228,7 +230,8 @@
       <workItem from="1779794188318" duration="15724000" />
       <workItem from="1779888929557" duration="2915000" />
       <workItem from="1779957854985" duration="9195000" />
-      <workItem from="1780043220017" duration="10644000" />
+      <workItem from="1780043220017" duration="10860000" />
+      <workItem from="1780063835424" duration="4756000" />
     </task>
     <servers />
   </component>
@@ -247,6 +250,6 @@
     </option>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/archify_backend$Unnamed.coverage" NAME="Unnamed Coverage Results" MODIFIED="1780060379287" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/archify_backend$Unnamed.coverage" NAME="Unnamed Coverage Results" MODIFIED="1780070845671" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>
