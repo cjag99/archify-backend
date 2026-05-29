@@ -21,13 +21,14 @@ async def get_all_pattern_codes(service: PatternCodeService = Depends(get_patter
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@router.get("/{pattern_code_id}")
+@router.get("/{pattern_id}")
 async def get_pattern_code_by_id(
-        pattern_code_id: UUID,
+        pattern_id: UUID,
+        code_id: UUID,
         service: PatternCodeService = Depends(get_pattern_code_service)
 ) -> PatternsCodeModel:
     try:
-        pattern_code = service.get_pattern_code_by_id(pattern_code_id)
+        pattern_code = service.get_pattern_code_by_id(code_id, pattern_id)
         if not pattern_code:
             raise HTTPException(status_code=404, detail="Pattern code not found")
         return  pattern_code
@@ -46,28 +47,30 @@ async def create_pattern_code(
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@router.patch("/{pattern_code_id}")
+@router.patch("/{pattern_id}")
 async def update_pattern_code(
-        pattern_code_id: UUID,
+        pattern_id: UUID,
+        code_id: UUID,
         data: PatternsCodeRequest,
         service: PatternCodeService = Depends(get_pattern_code_service),
         user_auth: tuple[UserProfile, str] = Depends(is_user_admin)
 ) -> PatternsCodeModel:
     try:
         token = user_auth[1]
-        pattern_code = service.update_pattern_code(pattern_code_id, data, token)
+        pattern_code = service.update_pattern_code(code_id,pattern_id, data, token)
         return  pattern_code
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@router.delete("/{pattern_code_id}")
+@router.delete("/{pattern_id}")
 async def delete_pattern_code(
-        pattern_code_id: UUID,
+        pattern_id: UUID,
+        code_id: UUID,
         service: PatternCodeService = Depends(get_pattern_code_service),
         user_auth: tuple[UserProfile, str] = Depends(is_user_admin)
 ) -> None:
     try:
         token = user_auth[1]
-        service.delete_pattern_code(pattern_code_id, token)
+        service.delete_pattern_code(code_id, pattern_id, token)
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))

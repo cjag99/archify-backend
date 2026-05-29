@@ -13,9 +13,9 @@ class PatternsCodePort(ABC):
         pass
 
     @abstractmethod
-    def get_pattern_code_by_id(self, pattern_code_id: UUID) -> PatternsCodeModel:
+    def get_pattern_code_by_id(self, code_id: UUID, pattern_id: UUID) -> PatternsCodeModel:
         pass
 
     @abstractmethod
-    def delete_pattern_code(self, pattern_code_id: UUID, token: str) -> None:
+    def delete_pattern_code(self, code_id: UUID, pattern_id: UUID, token: str) -> None:
         pass

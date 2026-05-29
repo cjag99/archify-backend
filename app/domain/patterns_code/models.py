@@ -5,7 +5,6 @@ from pydantic import BaseModel, ConfigDict
 from app.domain.jsonb_type import JsonDict
 
 class PatternsCodeModel(BaseModel):
-    id: UUID | None = None
     pattern_id: UUID
     code_id: UUID
     code_snippet: JsonDict

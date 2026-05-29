@@ -24,8 +24,6 @@ class SupabasePatternCodeRepository(PatternsCodePort):
         """
         try:
             pattern_code_dict = data.model_dump(exclude_none=True)
-            if pattern_code_dict.get("id") is not None:
-                pattern_code_dict["id"] = str(pattern_code_dict["id"])
 
             if pattern_code_dict.get("pattern_id") is not None:
                 pattern_code_dict["pattern_id"] = str(pattern_code_dict["pattern_id"])
@@ -35,7 +33,8 @@ class SupabasePatternCodeRepository(PatternsCodePort):
             
             if pattern_code_dict.get("created_at") is not None:
                 pattern_code_dict["created_at"] = pattern_code_dict["created_at"].isoformat()
-                
+
+            print(f"DEBUG BACKEND - Datos que van a Supabase: {pattern_code_dict}")
             self.client.postgrest.auth(token)
             response = self.client.from_(self.table_name).upsert(pattern_code_dict).execute()
 
@@ -45,13 +44,13 @@ class SupabasePatternCodeRepository(PatternsCodePort):
             
             if getattr(response, "data", None):
                 res_data = response.data[0]
-                if not data.id and res_data.get("id"):
-                    data.id = UUID(res_data["id"])
                 if not data.created_at and res_data.get("created_at"):
                     from datetime import datetime
                     data.created_at = datetime.fromisoformat(res_data["created_at"].replace("Z", "+00:00"))
 
         except Exception as e:
+            import traceback
+            traceback.print_exc()
             print(f"Error occured while saving: {e}")
 
     def get_all_pattern_codes(self) -> list[PatternsCodeModel]:
@@ -71,7 +70,7 @@ class SupabasePatternCodeRepository(PatternsCodePort):
             print(f"Error occurred while showing all pattern codes: {e}")
             return None
 
-    def get_pattern_code_by_id(self, pattern_code_id: UUID) -> PatternsCodeModel:
+    def get_pattern_code_by_id(self, code_id: UUID, pattern_id: UUID) -> PatternsCodeModel:
         """
         Retrieves all pattern code snippets using its unique identifier from the Supabase database.
         Args:
@@ -82,7 +81,7 @@ class SupabasePatternCodeRepository(PatternsCodePort):
             Exception: If retrieving the list of snippets fails for any reason.
         """
         try:
-            response = self.client.from_(self.table_name).select("*").eq("id", str(pattern_code_id)).execute()
+            response = self.client.from_(self.table_name).select("*").eq("code_id", str(code_id)).eq("pattern_id", str(pattern_id)).execute()
             if not getattr(response, "data", None):
                 return None
             return PatternsCodeModel(**response.data[0])
@@ -90,7 +89,7 @@ class SupabasePatternCodeRepository(PatternsCodePort):
             print(f"Error occurred while retrieving pattern code: {e}")
             return None
 
-    def delete_pattern_code(self, pattern_code_id: UUID, token: str) -> None:
+    def delete_pattern_code(self, code_id: UUID, pattern_id: UUID, token: str) -> None:
         """
          Deletes a pattern code snippet from the Supabase database based on its unique identifier.
         Args:
@@ -101,6 +100,6 @@ class SupabasePatternCodeRepository(PatternsCodePort):
         """
         try:
             self.client.postgrest.auth(token)
-            self.client.from_(self.table_name).delete().eq("id", str(pattern_code_id)).execute()
+            self.client.from_(self.table_name).delete().eq("code_id", str(code_id)).eq("pattern_id", str(pattern_id)).execute()
         except Exception as e:
             print(f"Error occurred while deleting pattern code: {e}")
