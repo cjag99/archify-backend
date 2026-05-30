@@ -1,5 +1,5 @@
 from uuid import UUID
-from .models import UserProfile
+from .models import UserProfile, UserUpdateRequest
 from .ports import UserPort
 
 class UserService:
@@ -44,13 +44,13 @@ class UserService:
             raise ValueError(f"User with ID {user_id} not found")
         self.user_port.delete_user(user_id, token)
 
-    def update_user_profile(self, user_id: UUID, updated_profile: UserProfile, token: str) -> UserProfile:
+    def update_user_profile(self, user_id: UUID, update_req: "UserUpdateRequest", token: str) -> UserProfile:
         """
         Updates a user's profile information.
         
         Args:
             user_id (UUID): The unique identifier of the user to update.
-            updated_profile (UserProfile): The updated profile information.
+            update_req (UserUpdateRequest): The updated profile information.
             token (str): The authentication token for the request.
         Returns:
             UserProfile: The updated user profile.
@@ -61,10 +61,10 @@ class UserService:
         if not existing_profile:
             raise ValueError(f"User with ID {user_id} not found")
         
-        existing_profile.username = updated_profile.username
-        existing_profile.email = updated_profile.email
-        existing_profile.first_name = updated_profile.first_name
-        existing_profile.last_name = updated_profile.last_name
+        update_data = update_req.model_dump(exclude_unset=True)
+        for key, value in update_data.items():
+            if value is not None:
+                setattr(existing_profile, key, value)
         
         self.user_port.save_user(existing_profile)
         return existing_profile

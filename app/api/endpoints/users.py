@@ -2,8 +2,7 @@ from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException
 
 from app.api.dependencies import get_user_service, is_user_admin, get_current_user
-from app.domain.auth.dtos import UserRegistrationRequest
-from app.domain.users.models import UserProfile
+from app.domain.users.models import UserProfile, UserUpdateRequest
 from app.domain.users.services import UserService
 
 
@@ -42,15 +41,19 @@ async def get_profile(
 @router.patch("/{user_id}")
 async def update_profile(
         user_id: UUID,
-        data: UserRegistrationRequest,
+        data: UserUpdateRequest,
         service: UserService = Depends(get_user_service),
         user_auth: tuple[UserProfile, str] = Depends(get_current_user)
-) -> None:
+) -> UserProfile:
     try:
         user, token = user_auth
-        if user.id == user_id or user.is_authorized:
-            service.update_user_profile(user_id, data, token)
+        if user.id == user_id or user.role == "admin":
+            return service.update_user_profile(user_id, data, token)
+        else:
+            raise HTTPException(status_code=403, detail="Not authorized to update this profile")
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         raise HTTPException(status_code=400, detail=str(e))
 
 @router.delete("/{user_id}")

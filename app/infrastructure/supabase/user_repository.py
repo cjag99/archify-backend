@@ -23,12 +23,8 @@ class SupabaseUserRepository(UserPort):
             Exception: If saving the user profile fails for any reason.
         """
         try:
-            user_dict = user.model_dump(exclude_none=True)
-            if user_dict.get("id") is not None:
-                user_dict["id"] = str(user_dict["id"])
-
-            if user_dict.get("created_at") is not None:
-                user_dict["created_at"] = user_dict["created_at"].isoformat()
+            # Using mode="json" automatically converts UUIDs, datetimes, and enums to strings
+            user_dict = user.model_dump(mode="json", exclude_none=True)
 
             response = self.client.from_(self.table_name).upsert(user_dict).execute()
 

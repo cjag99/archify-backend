@@ -52,3 +52,25 @@ class UserProfile(BaseModel):
        return sanitize_string(value)
 
     model_config = ConfigDict(from_attributes=True, strict=False)
+
+
+class UserUpdateRequest(BaseModel):
+    """
+    Data model for updating user profiles.
+    """
+    first_name: str | None = Field(None, min_length=1, max_length=64, pattern=NAME_REGEX)
+    last_name: str | None = Field(None, min_length=1, max_length=100, pattern=NAME_REGEX)
+    email: EmailStr | None = Field(None, min_length=5, max_length=255)
+    username: str | None = Field(None, min_length=3, max_length=20, pattern=USERNAME_REGEX)
+    is_authorized: bool | None = None
+    avatar: UUID | None = None
+    role: UserProfileRole | None = None
+
+    @field_validator("first_name", "last_name", "username", mode="before")
+    @classmethod
+    def validate_fields(cls, value: str | None) -> str | None:
+       if value is not None:
+           return sanitize_string(value)
+       return value
+
+    model_config = ConfigDict(from_attributes=True, strict=False)
