@@ -1,3 +1,4 @@
+import bleach
 import html
 
 
@@ -19,5 +20,5 @@ def sanitize_string(value: str) -> str:
         str: The sanitized string.
     """
     if isinstance(value, str):
-        return html.escape(value)
+        return bleach.clean(value, tags=[], strip=True)
     return value

@@ -26,14 +26,19 @@ async def get_pattern_code_by_id(
         pattern_id: UUID,
         code_id: UUID,
         service: PatternCodeService = Depends(get_pattern_code_service)
-) -> PatternsCodeModel:
+) -> list[PatternsCodeModel]:
     try:
-        pattern_code = service.get_pattern_code_by_id(code_id, pattern_id)
+        if code_id is None:
+            pattern_code = service.get_pattern_code_by_id(pattern_id=pattern_id)
+        else:
+            pattern_code = service.get_pattern_code_by_all_id(code_id, pattern_id)
         if not pattern_code:
-            raise HTTPException(status_code=404, detail="Pattern code not found")
+            return []
+
         return  pattern_code
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
 
 @router.post("/")
 async def create_pattern_code(

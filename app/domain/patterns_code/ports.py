@@ -13,7 +13,11 @@ class PatternsCodePort(ABC):
         pass
 
     @abstractmethod
-    def get_pattern_code_by_id(self, code_id: UUID, pattern_id: UUID) -> PatternsCodeModel:
+    def get_pattern_code_by_id(self, pattern_id: UUID) -> PatternsCodeModel:
+        pass
+
+    @abstractmethod
+    def get_pattern_code_by_all_id(self, code_id: UUID, pattern_id: UUID) -> PatternsCodeModel:
         pass
 
     @abstractmethod

@@ -21,9 +21,11 @@ class PatternCodeService:
     def get_all_pattern_codes(self) -> list[PatternsCodeModel] | None:
         return  self.port.get_all_pattern_codes()
 
-    def get_pattern_code_by_id(self, code_id: UUID, pattern_id: UUID) -> PatternsCodeModel | None:
-        return self.port.get_pattern_code_by_id(code_id, pattern_id)
+    def get_pattern_code_by_id(self, code_id: UUID, pattern_id: UUID) -> list[PatternsCodeModel] | None:
+        return self.port.get_pattern_code_by_id(pattern_id)
 
+    def get_pattern_code_by_all_id(self, code_id: UUID, pattern_id: UUID) -> PatternsCodeModel:
+        return self.port.get_pattern_code_by_all_id(code_id, pattern_id)
     def delete_pattern_code(self, code_id: UUID, pattern_id: UUID, token: str) -> None:
         self.port.delete_pattern_code(code_id, pattern_id, token)
 

@@ -70,7 +70,7 @@ class SupabasePatternCodeRepository(PatternsCodePort):
             print(f"Error occurred while showing all pattern codes: {e}")
             return None
 
-    def get_pattern_code_by_id(self, code_id: UUID, pattern_id: UUID) -> PatternsCodeModel:
+    def get_pattern_code_by_id(self, pattern_id: UUID) -> list[PatternsCodeModel]:
         """
         Retrieves all pattern code snippets using its unique identifier from the Supabase database.
         Args:
@@ -81,13 +81,24 @@ class SupabasePatternCodeRepository(PatternsCodePort):
             Exception: If retrieving the list of snippets fails for any reason.
         """
         try:
-            response = self.client.from_(self.table_name).select("*").eq("code_id", str(code_id)).eq("pattern_id", str(pattern_id)).execute()
+            response = self.client.from_(self.table_name).select("*").eq("pattern_id", str(pattern_id)).execute()
             if not getattr(response, "data", None):
                 return None
-            return PatternsCodeModel(**response.data[0])
+            return [PatternsCodeModel(**row) for row in response.data]
         except Exception as e:
             print(f"Error occurred while retrieving pattern code: {e}")
             return None
+
+    def get_pattern_code_by_all_id(self, code_id: UUID, pattern_id: UUID) -> PatternsCodeModel:
+        try:
+            response = self.client.from_(self.table_name).select("*")\
+            .eq("code_id", str(code_id)) .eq("pattern_id", str(pattern_id)).execute()
+            if not getattr(response, "data", None):
+                return None
+            return PatternsCodeModel(**response.data[0])
+
+        except Exception as e:
+            print(f"Error occurred while retrieving pattern code: {e}")
 
     def delete_pattern_code(self, code_id: UUID, pattern_id: UUID, token: str) -> None:
         """
