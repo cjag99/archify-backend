@@ -11,11 +11,8 @@ class ProjectService:
 
     def create_project(self, project_data: ProjectCreateModel, user_id: UUID, token: str) -> ProjectModel:
         
-        project = ProjectModel(
-            name=project_data.name,
-            description=project_data.description,
-            user_id=user_id
-        )
+        project = ProjectModel(**project_data.model_dump(exclude_none=True))
+        project.user_id = user_id
         self.port.save_project(project, token)
         return project
 

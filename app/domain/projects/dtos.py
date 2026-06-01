@@ -1,6 +1,8 @@
 from pydantic import BaseModel, ConfigDict, field_validator
-from app.domain.utils import sanitize_string
 from uuid import UUID
+
+from app.domain.utils import sanitize_string
+from ..jsonb_type import JsonDict
 
 class ProjectCreateModel(BaseModel):
     """
@@ -11,6 +13,9 @@ class ProjectCreateModel(BaseModel):
     """
     name: str
     description: str | None = None
+    project_logo: UUID | None = None
+    architecture: JsonDict | None = None
+    user_id: UUID
 
     @field_validator("name", "description", mode="before")
     @classmethod
@@ -19,23 +24,5 @@ class ProjectCreateModel(BaseModel):
             return value
         return sanitize_string(value)
     
-    model_config = ConfigDict(from_attributes=True, strict=True)
+    model_config = ConfigDict(from_attributes=True, strict=False)
 
-class ProjectUpdateModel(BaseModel):
-    """
-    Data model for updating an existing project.
-    Attributes:
-        name (str | None): Name of the project.
-        description (str | None): Description of the project.
-    """
-    name: str | None = None
-    description: str | None = None
-
-    @field_validator("name", "description", mode="before")
-    @classmethod
-    def validate_fields(cls, value: str) -> str:
-        if value is None:
-            return value
-        return sanitize_string(value)
-    
-    model_config = ConfigDict(from_attributes=True, strict=True)

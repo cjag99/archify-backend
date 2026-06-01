@@ -23,7 +23,19 @@ class SupabaseProjectRepository(ProjectPort):
             Exception: If saving the project fails for any reason.
         """
         try:
-            project_dict = {project.model_dump(exclude_none=True)}
+            project_dict = project.model_dump(exclude_none=True)
+            if project_dict.get("id") is not None:
+                project_dict["id"] = str(project_dict["id"])
+
+            if project_dict.get("created_at") is not None:
+                project_dict["created_at"] = project_dict["created_at"].isoformat()
+
+            if project_dict.get("project_logo") is not None:
+                project_dict["project_logo"] = str(project_dict["project_logo"])
+
+            if project_dict.get("user_id") is not None:
+                project_dict["user_id"] = str(project_dict["user_id"])
+
             self.client.postgrest.auth(token)
             response = self.client.from_(self.table_name).upsert(project_dict).execute()
 
@@ -40,6 +52,8 @@ class SupabaseProjectRepository(ProjectPort):
                     project.created_at = datetime.fromisoformat(res_data["created_at"].replace("Z", "+00:00"))
 
         except Exception as e:
+            import traceback
+            traceback.print_exc()
             print(f"Error occurred while saving project: {e}")
 
     def get_project_by_id(self, project_id: UUID, token: str) -> ProjectModel | None:

@@ -2,7 +2,7 @@ import token
 from uuid import UUID
 from fastapi import APIRouter, HTTPException, Depends
 from app.api.dependencies import get_project_service, get_current_user
-from app.domain.projects.dtos import ProjectCreateModel, ProjectUpdateModel
+from app.domain.projects.dtos import ProjectCreateModel
 from app.domain.projects.services import ProjectService
 from app.domain.users.models import UserProfile
 
@@ -12,19 +12,21 @@ router = APIRouter()
 async def create_project(
     data: ProjectCreateModel,
     service: ProjectService = Depends(get_project_service),
-    user_auth: tuple[str, UserProfile] = Depends(get_current_user)
+    user_auth: tuple[UserProfile, str] = Depends(get_current_user)
 ):
     user, token = user_auth
     try:
         project = service.create_project(data, user.id, token)
         return project
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         raise HTTPException(status_code=400, detail=str(e))
 
 @router.get("/")
 async def get_projects(
     service: ProjectService = Depends(get_project_service),
-    user_auth: tuple[str, UserProfile] = Depends(get_current_user)
+    user_auth: tuple[UserProfile, str] = Depends(get_current_user)
 ):
     user, token = user_auth
     try:
@@ -76,7 +78,7 @@ async def delete_project(
 @router.patch("/{project_id}")
 async def update_project(
     project_id: UUID,
-    data: ProjectUpdateModel,
+    data: ProjectCreateModel,
     service: ProjectService = Depends(get_project_service),
     user_auth: tuple[str, UserProfile] = Depends(get_current_user)
 ):
