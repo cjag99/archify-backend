@@ -1,9 +1,8 @@
 import io
-import token
 import zipfile
 from uuid import UUID
 from fastapi import APIRouter, HTTPException, Depends
-from starlette.responses import StreamingResponse
+from fastapi.responses import StreamingResponse
 
 from app.api.dependencies import get_project_service, get_current_user, get_architecture_service
 from app.domain.architectures.services import ArchitectureService
@@ -60,6 +59,8 @@ async def get_project(
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
+  # Asegúrate de importar esto
+
 @router.get("/download/{project_id}")
 async def download_project(
         project_id: UUID,
@@ -72,52 +73,69 @@ async def download_project(
         project = service.get_project_by_id(str(project_id), token)
         if not project or (project.user_id != user.id and not user.is_authorized):
             raise HTTPException(status_code=404, detail="Project not found")
+
         zip_buffer = io.BytesIO()
+
         with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zip_file:
             readme_content = f'# {project.name}\n\n'
             readme_content += f'## Description\n{project.description}\n\n'
+
             if project.architecture is not None:
                 architecture_id = project.architecture.get("architecture_id", None)
-                architecture = architecture_service.get_architecture_by_id(architecture_id)
+                architecture = architecture_service.get_architecture_by_id(architecture_id, token)
                 if architecture:
                     readme_content += f'## Architecture\n'
-                    readme_content += f'**Name:** {architecture.name}\n'
+                    readme_content += f'**Name:** {architecture.name}\n\n'
                     readme_content += f'**Description:** {architecture.description}\n\n'
 
                     nodes = project.architecture.get("nodes", [])
-                    edges = project.architecture.get("edges", [])
                     readme_content += "### Components\n"
                     readme_content += "| Component Name (Label) | Type / Role |\n"
                     readme_content += "| :--- | :--- |\n"
+
                     for node in nodes:
                         if node.get("type") == "user":
                             continue
+
                         label = node.get("data", {}).get("label", "Unknown")
                         node_type = node.get("type", "generic-component")
                         readme_content += f"| {label} | `{node_type}` |\n"
 
                         folder_name = "".join(c for c in label if c.isalnum() or c in (" ", "_", "-")).strip()
                         if folder_name:
+                            folder_name_slug = folder_name.replace(" ", "_").lower()
                             suffix = node_type.split("-")[-1]
-                            file_path = f"{folder_name}/{folder_name}_{suffix}.py"
+                            file_path = f"src/{folder_name_slug}/{folder_name_slug}_{suffix}.py"
                             file_content = f"# Componente autogenerado para {label}\n"
                             zip_file.writestr(file_path, file_content)
 
                     readme_content += "\n"
 
-                zip_file.writestr("README.md", readme_content)
-                zip_buffer.seek(0)
-                safe_project_name = "".join(c for c in project.name if c.isalnum() or c in ("_", "-")).strip()
-                filename = f"{safe_project_name or 'project'}.zip"
-                return StreamingResponse(
-                    zip_buffer,
-                    media_type="application/x-zip-compressed",
-                    headers={"Content-Disposition": f"attachment; filename={filename}"}
-                )
+            zip_file.writestr("README.md", readme_content)
+
+        zip_buffer.seek(0)
+        zip_bytes = zip_buffer.getvalue()
+
+        safe_project_name = "".join(c for c in project.name if c.isalnum() or c in ("_", "-")).strip()
+        filename = f"{safe_project_name or 'project'}.zip"
+
+        return StreamingResponse(
+            content=zip_bytes,
+            status_code=200,
+            media_type="application/octet-stream",
+            headers={
+                "Content-Type": "application/zip",
+                "Content-Disposition": f'attachment; filename="{filename}"',
+                "Cache-Control": "no-store",
+                "Content-Length": str(len(zip_bytes))
+            }
+        )
+
     except HTTPException:
         raise
-
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         raise HTTPException(status_code=400, detail=str(e))
 
 @router.delete("/{project_id}")
