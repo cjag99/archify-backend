@@ -9,7 +9,7 @@ class ProjectService:
     def __init__(self, port: ProjectPort):
         self.port = port
 
-    def create_project(self, project_data: ProjectCreateModel, user_id: UUID, token: str) -> ProjectModel:
+    def save_project(self, project_data: ProjectCreateModel, user_id: UUID, token: str) -> ProjectModel:
         
         project = ProjectModel(**project_data.model_dump(exclude_none=True))
         project.user_id = user_id

@@ -23,12 +23,15 @@ class SupabaseProjectRepository(ProjectPort):
             Exception: If saving the project fails for any reason.
         """
         try:
-            project_dict = project.model_dump(exclude_none=True)
+            project_dict = project.model_dump(mode="json",exclude_none=True)
             if project_dict.get("id") is not None:
                 project_dict["id"] = str(project_dict["id"])
 
             if project_dict.get("created_at") is not None:
-                project_dict["created_at"] = project_dict["created_at"].isoformat()
+                if hasattr(project_dict["created_at"], "isoformat"):
+                    project_dict["created_at"] = project_dict["created_at"].isoformat()
+                else:
+                    project_dict["created_at"] = str(project_dict["created_at"])
 
             if project_dict.get("project_logo") is not None:
                 project_dict["project_logo"] = str(project_dict["project_logo"])

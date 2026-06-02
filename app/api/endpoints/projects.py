@@ -1,7 +1,12 @@
+import io
 import token
+import zipfile
 from uuid import UUID
 from fastapi import APIRouter, HTTPException, Depends
-from app.api.dependencies import get_project_service, get_current_user
+from starlette.responses import StreamingResponse
+
+from app.api.dependencies import get_project_service, get_current_user, get_architecture_service
+from app.domain.architectures.services import ArchitectureService
 from app.domain.projects.dtos import ProjectCreateModel
 from app.domain.projects.services import ProjectService
 from app.domain.users.models import UserProfile
@@ -16,7 +21,7 @@ async def create_project(
 ):
     user, token = user_auth
     try:
-        project = service.create_project(data, user.id, token)
+        project = service.save_project(data, user.id, token)
         return project
     except Exception as e:
         import traceback
@@ -44,7 +49,7 @@ async def get_projects(
 async def get_project(
     project_id: UUID,
     service: ProjectService = Depends(get_project_service),
-    user_auth: tuple[str, UserProfile] = Depends(get_current_user)
+    user_auth: tuple[UserProfile, str] = Depends(get_current_user)
 ):
     user, token = user_auth
     try:
@@ -52,6 +57,66 @@ async def get_project(
         if not project or project.user_id != user.id:
             raise HTTPException(status_code=404, detail="Project not found")
         return project
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+@router.get("/download/{project_id}")
+async def download_project(
+        project_id: UUID,
+        service: ProjectService = Depends(get_project_service),
+        architecture_service: ArchitectureService = Depends(get_architecture_service),
+        user_auth: tuple[UserProfile, str] = Depends(get_current_user)
+):
+    user, token = user_auth
+    try:
+        project = service.get_project_by_id(str(project_id), token)
+        if not project or (project.user_id != user.id and not user.is_authorized):
+            raise HTTPException(status_code=404, detail="Project not found")
+        zip_buffer = io.BytesIO()
+        with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zip_file:
+            readme_content = f'# {project.name}\n\n'
+            readme_content += f'## Description\n{project.description}\n\n'
+            if project.architecture is not None:
+                architecture_id = project.architecture.get("architecture_id", None)
+                architecture = architecture_service.get_architecture_by_id(architecture_id)
+                if architecture:
+                    readme_content += f'## Architecture\n'
+                    readme_content += f'**Name:** {architecture.name}\n'
+                    readme_content += f'**Description:** {architecture.description}\n\n'
+
+                    nodes = project.architecture.get("nodes", [])
+                    edges = project.architecture.get("edges", [])
+                    readme_content += "### Components\n"
+                    readme_content += "| Component Name (Label) | Type / Role |\n"
+                    readme_content += "| :--- | :--- |\n"
+                    for node in nodes:
+                        if node.get("type") == "user":
+                            continue
+                        label = node.get("data", {}).get("label", "Unknown")
+                        node_type = node.get("type", "generic-component")
+                        readme_content += f"| {label} | `{node_type}` |\n"
+
+                        folder_name = "".join(c for c in label if c.isalnum() or c in (" ", "_", "-")).strip()
+                        if folder_name:
+                            suffix = node_type.split("-")[-1]
+                            file_path = f"{folder_name}/{folder_name}_{suffix}.py"
+                            file_content = f"# Componente autogenerado para {label}\n"
+                            zip_file.writestr(file_path, file_content)
+
+                    readme_content += "\n"
+
+                zip_file.writestr("README.md", readme_content)
+                zip_buffer.seek(0)
+                safe_project_name = "".join(c for c in project.name if c.isalnum() or c in ("_", "-")).strip()
+                filename = f"{safe_project_name or 'project'}.zip"
+                return StreamingResponse(
+                    zip_buffer,
+                    media_type="application/x-zip-compressed",
+                    headers={"Content-Disposition": f"attachment; filename={filename}"}
+                )
+    except HTTPException:
+        raise
+
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
@@ -80,16 +145,22 @@ async def update_project(
     project_id: UUID,
     data: ProjectCreateModel,
     service: ProjectService = Depends(get_project_service),
-    user_auth: tuple[str, UserProfile] = Depends(get_current_user)
+    user_auth: tuple[UserProfile, str] = Depends(get_current_user)
 ):
     user, token = user_auth
     try:
         project = service.get_project_by_id(str(project_id), token)
         if not project or project.user_id != user.id:
             raise HTTPException(status_code=404, detail="Project not found")
-        
-        service.save_project(project, data.model_dump(exclude_unset=True), token)
+
+        update_data = data.model_dump(exclude_unset=True)
+        updated_project = project.model_copy(update=update_data)
+        service.save_project(
+            project_data=updated_project,
+            user_id=user.id,
+            token=token
+        )
+
         return {"message": "Project updated successfully"}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
-

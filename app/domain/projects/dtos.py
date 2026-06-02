@@ -15,7 +15,8 @@ class ProjectCreateModel(BaseModel):
     description: str | None = None
     project_logo: UUID | None = None
     architecture: JsonDict | None = None
-    user_id: UUID
+    user_id: UUID | None = None
+    
 
     @field_validator("name", "description", mode="before")
     @classmethod
