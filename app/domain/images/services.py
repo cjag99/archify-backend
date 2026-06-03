@@ -1,22 +1,14 @@
 from uuid import UUID
 
-from .models import ImageModel
-from .dtos import ImageRequestModel
+from .models import ImageModel, ImageUsage
 from .ports import ImagePort
 
 class ImageServices:
     def __init__(self, port: ImagePort):
         self.port = port
 
-    def create_image(self, image_data: ImageRequestModel, user_id: UUID, token: str) -> ImageModel:
-       image = ImageModel(
-           file_name=image_data.file_name,
-           url=image_data.url,
-           usage_type=image_data.usage_type,
-           user_id=user_id
-       )
-       self.port.upload_image(image, token)
-       return image
+    def create_image(self, file_bytes: bytes, file_name: str, content_type: str, usage_type: ImageUsage, user_id: UUID, token: str) -> ImageModel:
+       return self.port.upload_image(file_bytes, file_name, content_type, usage_type, user_id, token)
 
     def get_image_by_id(self, user_id: UUID, image_id: UUID, token: str) -> ImageModel | None:
         return self.port.get_image_by_id(user_id=user_id, image_id=image_id, token=token)

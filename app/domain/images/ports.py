@@ -1,11 +1,11 @@
 from uuid import UUID
 from abc import ABC, abstractmethod
 
-from .models import ImageModel
+from .models import ImageModel, ImageUsage
 
 class ImagePort(ABC):
     @abstractmethod
-    def upload_image(self, image: ImageModel, token: str)-> None:
+    def upload_image(self, file_bytes: bytes, file_name: str, content_type: str, usage_type: ImageUsage, user_id: UUID, token: str) -> ImageModel:
         pass
 
     @abstractmethod
