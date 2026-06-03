@@ -1,3 +1,6 @@
+"""
+Application services for the authentication domain.
+"""
 from .ports import AuthPort, AuthException
 from .dtos import UserLoginRequest, UserRegistrationRequest
 from ..users.ports import UserPort
@@ -12,6 +15,13 @@ class AuthService:
     """
 
     def __init__(self, auth_port: AuthPort, user_port: UserPort):
+        """
+        Initializes the AuthService.
+
+        Args:
+            auth_port (AuthPort): The authentication provider interface.
+            user_port (UserPort): The user repository interface.
+        """
         self.auth_port = auth_port
         self.user_port = user_port
 

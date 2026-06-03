@@ -8,16 +8,22 @@ from app.api.dependencies import get_project_service, get_current_user, get_arch
 from app.domain.architectures.services import ArchitectureService
 from app.domain.projects.dtos import ProjectCreateModel
 from app.domain.projects.services import ProjectService
+from app.domain.projects.models import ProjectModel
 from app.domain.users.models import UserProfile
 
 router = APIRouter()
 
-@router.post("/")
+@router.post("/", response_model=ProjectModel)
 async def create_project(
     data: ProjectCreateModel,
     service: ProjectService = Depends(get_project_service),
     user_auth: tuple[UserProfile, str] = Depends(get_current_user)
-):
+) -> ProjectModel:
+    """
+    Create a new project.
+
+    Creates a new project for the authenticated user.
+    """
     user, token = user_auth
     try:
         project = service.save_project(data, user.id, token)
@@ -27,11 +33,17 @@ async def create_project(
         traceback.print_exc()
         raise HTTPException(status_code=400, detail=str(e))
 
-@router.get("/")
+@router.get("/", response_model=list[ProjectModel] | str)
 async def get_projects(
     service: ProjectService = Depends(get_project_service),
     user_auth: tuple[UserProfile, str] = Depends(get_current_user)
-):
+) -> list[ProjectModel] | str:
+    """
+    Get all projects.
+
+    Retrieves projects belonging to the authenticated user.
+    Admins can retrieve all projects.
+    """
     user, token = user_auth
     try:
         if user and user.is_authorized:
@@ -44,12 +56,18 @@ async def get_projects(
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@router.get("/{project_id}")
+@router.get("/{project_id}", response_model=ProjectModel)
 async def get_project(
     project_id: UUID,
     service: ProjectService = Depends(get_project_service),
     user_auth: tuple[UserProfile, str] = Depends(get_current_user)
-):
+) -> ProjectModel:
+    """
+    Get a specific project.
+
+    Retrieves a project by its unique identifier.
+    The user must own the project.
+    """
     user, token = user_auth
     try:
         project = service.get_project_by_id(str(project_id), token)
@@ -61,13 +79,19 @@ async def get_project(
 
   # Asegúrate de importar esto
 
-@router.get("/download/{project_id}")
+@router.get("/download/{project_id}", response_class=StreamingResponse)
 async def download_project(
         project_id: UUID,
         service: ProjectService = Depends(get_project_service),
         architecture_service: ArchitectureService = Depends(get_architecture_service),
         user_auth: tuple[UserProfile, str] = Depends(get_current_user)
-):
+) -> StreamingResponse:
+    """
+    Download a project as a ZIP file.
+
+    Generates a ZIP archive containing the project files and architecture components.
+    The user must own the project or be an admin.
+    """
     user, token = user_auth
     try:
         project = service.get_project_by_id(str(project_id), token)
@@ -138,12 +162,17 @@ async def download_project(
         traceback.print_exc()
         raise HTTPException(status_code=400, detail=str(e))
 
-@router.delete("/{project_id}")
+@router.delete("/{project_id}", response_model=dict)
 async def delete_project(
     project_id: UUID,
     service: ProjectService = Depends(get_project_service),
     user_auth: tuple[UserProfile, str] = Depends(get_current_user)
-):
+) -> dict:
+    """
+    Delete a project.
+
+    Deletes the specified project. The user must own the project or be an admin.
+    """
     user, token = user_auth
     
     try:
@@ -158,13 +187,18 @@ async def delete_project(
         traceback.print_exc()
         raise HTTPException(status_code=400, detail=str(e))
 
-@router.patch("/{project_id}")
+@router.patch("/{project_id}", response_model=dict)
 async def update_project(
     project_id: UUID,
     data: ProjectCreateModel,
     service: ProjectService = Depends(get_project_service),
     user_auth: tuple[UserProfile, str] = Depends(get_current_user)
-):
+) -> dict:
+    """
+    Update a project.
+
+    Updates the specified project details. The user must own the project.
+    """
     user, token = user_auth
     try:
         project = service.get_project_by_id(str(project_id), token)

@@ -10,6 +10,12 @@ class UserService:
     """
 
     def __init__(self, user_port: UserPort):
+        """
+        Initializes the UserService.
+
+        Args:
+            user_port (UserPort): The repository for user data.
+        """
         self.user_port = user_port
 
     def get_user_by_id(self, user_id: UUID, token: str) -> UserProfile:

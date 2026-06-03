@@ -1,3 +1,9 @@
+"""
+Main module for the Archify FastAPI backend application.
+
+This module initializes the FastAPI application, configures CORS middleware,
+and includes routers for various API endpoints.
+"""
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.api.endpoints import auth, projects, patterns, architectures, users, code_language, patterns_code, images, \

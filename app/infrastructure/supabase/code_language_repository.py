@@ -11,6 +11,9 @@ class SupabaseCodeLanguageRepository(CodeLanguagesPort):
     This class implements the CodeLanguagesPort interface, providing methods to save and retrieve code languages using the Supabase client.
     """
     def __init__(self):
+        """
+        Initializes the SupabaseCodeLanguageRepository with the Supabase client and sets the table name.
+        """
         self.client = supabase_client
         self.table_name = "code_languages"
 

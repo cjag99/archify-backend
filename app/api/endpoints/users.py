@@ -8,11 +8,17 @@ from app.domain.users.services import UserService
 
 router = APIRouter()
 
-@router.get("/")
+@router.get("/", response_model=list[UserProfile] | str)
 async def get_all_users(
     service: UserService = Depends(get_user_service),
     user_auth: tuple[UserProfile, str] = Depends(is_user_admin),
-):
+) -> list[UserProfile] | str:
+    """
+    Get all users.
+
+    Retrieves a list of all user profiles. Requires admin privileges.
+    Returns a list of UserProfile objects or a string if no users are found.
+    """
     try:
         token = user_auth[1]
         users = service.get_all_users(token)
@@ -22,12 +28,18 @@ async def get_all_users(
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@router.get("/{user_id}")
+@router.get("/{user_id}", response_model=UserProfile | None)
 async def get_profile(
         user_id: UUID,
         service: UserService = Depends(get_user_service),
         user_auth: tuple[UserProfile, str] = Depends(get_current_user)
 ) -> UserProfile | None:
+    """
+    Get user profile.
+
+    Retrieves the profile of a specific user by their ID.
+    Users can only access their own profile unless they have admin privileges.
+    """
     try:
         user, token = user_auth
         if user.id == user_id or user.is_authorized:
@@ -38,13 +50,19 @@ async def get_profile(
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@router.patch("/{user_id}")
+@router.patch("/{user_id}", response_model=UserProfile)
 async def update_profile(
         user_id: UUID,
         data: UserUpdateRequest,
         service: UserService = Depends(get_user_service),
         user_auth: tuple[UserProfile, str] = Depends(get_current_user)
 ) -> UserProfile:
+    """
+    Update user profile.
+
+    Updates the profile information for a specific user.
+    Users can only update their own profile unless they have admin privileges.
+    """
     try:
         user, token = user_auth
         if user.id == user_id or user.role == "admin":
@@ -56,12 +74,18 @@ async def update_profile(
         traceback.print_exc()
         raise HTTPException(status_code=400, detail=str(e))
 
-@router.delete("/{user_id}")
+@router.delete("/{user_id}", status_code=204)
 async def delete_profile(
         user_id: UUID,
         service: UserService = Depends(get_user_service),
         user_auth: tuple[UserProfile, str] = Depends(get_current_user)
 ) -> None:
+    """
+    Delete user profile.
+
+    Deletes the profile of a specific user by their ID.
+    Users can only delete their own profile unless they have admin privileges.
+    """
     try:
         user, token = user_auth
         if user.id == user_id or user.is_authorized:

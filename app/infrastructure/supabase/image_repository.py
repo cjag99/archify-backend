@@ -14,11 +14,32 @@ from .storage import (
 
 
 class SupabaseImageRepository(ImagePort):
+    """
+    Repository class to manage images in the Supabase database.
+    This class implements the ImagePort interface, providing methods to upload and retrieve images using the Supabase client.
+    """
     def __init__(self):
+        """
+        Initializes the SupabaseImageRepository with the Supabase client and sets the table name.
+        """
         self.client = supabase_client
         self.table_name = "images"
 
     def upload_image(self, file_bytes: bytes, file_name: str, content_type: str, usage_type: ImageUsage, user_id: UUID, token: str) -> ImageModel:
+        """
+        Uploads an image file to Supabase storage and creates an image record in the database.
+        Args:
+            file_bytes (bytes): The raw bytes of the image file.
+            file_name (str): The name of the file.
+            content_type (str): The MIME type of the file.
+            usage_type (ImageUsage): The intended usage of the image.
+            user_id (UUID): The ID of the user uploading the image.
+            token (str): The authentication token for the request.
+        Returns:
+            ImageModel: The saved image record.
+        Raises:
+            Exception: If storage upload or database insert fails.
+        """
         try:
             image_path, display_file_name = build_storage_object_path(
                 str(user_id),
@@ -75,6 +96,15 @@ class SupabaseImageRepository(ImagePort):
             raise
 
     def get_image_by_id(self, user_id: UUID, image_id: UUID, token: str) -> ImageModel | None:
+        """
+        Retrieves an image by its unique identifier from the Supabase database.
+        Args:
+            user_id (UUID): The ID of the user requesting the image.
+            image_id (UUID): The unique identifier of the image to retrieve.
+            token (str): The authentication token for the request.
+        Returns:
+            ImageModel | None: The image associated with the provided ID, or None if not found or unauthorized.
+        """
         try:
             user = SupabaseUserRepository().get_user_by_id(user_id, token)
             if not user:
@@ -107,6 +137,13 @@ class SupabaseImageRepository(ImagePort):
             return None
 
     def get_all_images(self, token: str) -> list[ImageModel] | None:
+        """
+        Retrieves all images from the Supabase database.
+        Args:
+            token (str): The authentication token for the request.
+        Returns:
+            list[ImageModel] | None: The list of all images, or None if not found.
+        """
         try:
             self.client.postgrest.auth(token)
             response = self.client.from_(self.table_name).select("*").execute()
@@ -123,6 +160,14 @@ class SupabaseImageRepository(ImagePort):
             return None
 
     def get_user_images(self, user_id: UUID, token: str) -> list[ImageModel] | None:
+        """
+        Retrieves all images belonging to a specific user from the Supabase database.
+        Args:
+            user_id (UUID): The unique identifier of the user.
+            token (str): The authentication token for the request.
+        Returns:
+            list[ImageModel] | None: The list of images associated with the user, or None if not found.
+        """
         try:
             self.client.postgrest.auth(token)
             response = self.client.from_(self.table_name).select("*").eq("user_id", str(user_id)).execute()
@@ -139,6 +184,14 @@ class SupabaseImageRepository(ImagePort):
             return None
 
     def delete_image(self, image_id: UUID, token: str) -> None:
+        """
+        Deletes an image from Supabase storage and its corresponding record in the database.
+        Args:
+            image_id (UUID): The unique identifier of the image to delete.
+            token (str): The authentication token for the request.
+        Raises:
+            Exception: If deleting the image fails for any reason.
+        """
         try:
             self.client.postgrest.auth(token)
             response = self.client.from_(self.table_name).select("*").eq("id", str(image_id)).execute()

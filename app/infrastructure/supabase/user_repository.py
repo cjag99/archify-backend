@@ -11,6 +11,9 @@ class SupabaseUserRepository(UserPort):
     """
 
     def __init__(self):
+        """
+        Initializes the SupabaseUserRepository with the Supabase client and sets the table name.
+        """
         self.client = supabase_client
         self.table_name = "profiles"
 

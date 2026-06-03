@@ -10,6 +10,9 @@ class SupabaseProjectRepository(ProjectPort):
     This class implements the ProjectPort interface, providing methods to save and retrieve projects using the Supabase client.
     """
     def __init__(self):
+        """
+        Initializes the SupabaseProjectRepository with the Supabase client and sets the table name.
+        """
         self.client = supabase_client
         self.table_name = "projects"
 

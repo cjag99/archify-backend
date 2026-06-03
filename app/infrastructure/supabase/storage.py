@@ -11,16 +11,32 @@ DEFAULT_SIGNED_URL_EXPIRES_SECONDS = 60 * 60 * 24 * 7  # 7 days
 
 
 def get_storage_bucket() -> str:
-    """Supabase Storage bucket id used for image uploads."""
+    """
+    Retrieves the Supabase Storage bucket ID used for image uploads.
+    Returns:
+        str: The configured storage bucket ID.
+    """
     return os.getenv("SUPABASE_STORAGE_BUCKET", DEFAULT_STORAGE_BUCKET)
 
 
 def is_public_storage_bucket() -> bool:
+    """
+    Checks if the configured Supabase Storage bucket is public.
+    Returns:
+        bool: True if public, False otherwise.
+    """
     return os.getenv("SUPABASE_STORAGE_PUBLIC", "").lower() in ("1", "true", "yes")
 
 
 def extract_storage_path_from_url(url: str, bucket: str | None = None) -> str | None:
-    """Extract object path inside the bucket from a Supabase storage URL."""
+    """
+    Extracts the object path inside the bucket from a Supabase storage URL.
+    Args:
+        url (str): The full URL of the storage object.
+        bucket (str | None): The bucket name, defaults to the configured storage bucket.
+    Returns:
+        str | None: The internal storage path, or None if it cannot be parsed.
+    """
     bucket = bucket or get_storage_bucket()
     parsed = urlparse(url)
     path = unquote(parsed.path)
@@ -39,9 +55,15 @@ def extract_storage_path_from_url(url: str, bucket: str | None = None) -> str | 
 
 def create_storage_object_url(storage_path: str) -> str:
     """
-    Return a browser-usable URL for a storage object.
+    Creates a browser-usable URL for a storage object.
     Private buckets need signed URLs (what Supabase UI copies with 'Copy URL').
     Public buckets can use /object/public/... URLs.
+    Args:
+        storage_path (str): The path to the object within the storage bucket.
+    Returns:
+        str: The public or signed URL to access the object.
+    Raises:
+        ValueError: If a signed URL cannot be created.
     """
     bucket = get_storage_bucket()
 
@@ -69,7 +91,13 @@ def create_storage_object_url(storage_path: str) -> str:
 
 
 def refresh_storage_url(stored_url: str) -> str:
-    """Rebuild a working URL from any previously stored Supabase storage link."""
+    """
+    Rebuilds a working URL from any previously stored Supabase storage link.
+    Args:
+        stored_url (str): The existing storage URL.
+    Returns:
+        str: The refreshed storage URL, or the original if parsing fails.
+    """
     storage_path = extract_storage_path_from_url(stored_url)
     if not storage_path:
         return stored_url
@@ -78,11 +106,14 @@ def refresh_storage_url(stored_url: str) -> str:
 
 def build_storage_object_path(user_id: str, original_filename: str | None, content_type: str) -> tuple[str, str]:
     """
-    Build a storage-safe object path (no spaces or special chars) and keep the
+    Builds a storage-safe object path (no spaces or special chars) and keeps the
     original filename for display in the database.
-
+    Args:
+        user_id (str): The identifier of the user uploading the file.
+        original_filename (str | None): The original filename, if available.
+        content_type (str): The MIME type of the file.
     Returns:
-        (storage_path, display_file_name)
+        tuple[str, str]: A tuple containing the storage path and the safe display file name.
     """
     display_name = (original_filename or "image").replace("\\", "/").split("/")[-1].strip() or "image"
     path = Path(display_name)

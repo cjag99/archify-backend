@@ -1,0 +1,3 @@
+"""
+Code languages domain module.
+"""

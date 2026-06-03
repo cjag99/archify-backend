@@ -3,16 +3,23 @@ from uuid import UUID
 
 from app.api.dependencies import get_app_config_service, is_user_admin, get_current_user
 from app.domain.app_configs.dtos import AppConfigRequest
+from app.domain.app_configs.models import AppConfigModel
 from app.domain.app_configs.services import AppConfigService
 from app.domain.users.models import UserProfile
 
 router = APIRouter()
 
-@router.get("/")
+@router.get("/", response_model=list[AppConfigModel] | str)
 async def get_app_configs(
         service: AppConfigService = Depends(get_app_config_service),
         user_auth: tuple[UserProfile, str] = Depends(is_user_admin)
-):
+) -> list[AppConfigModel] | str:
+    """
+    Get all application configurations.
+
+    Retrieves all available app configurations. Requires admin privileges.
+    Returns a list of AppConfigModel objects or a string if none exist.
+    """
     try:
         token =user_auth[1]
         app_configs = service.get_all_configs(token)
@@ -23,11 +30,17 @@ async def get_app_configs(
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@router.get("/enabled")
+@router.get("/enabled", response_model=list[AppConfigModel])
 async def get_enabled_configs(
         service: AppConfigService = Depends(get_app_config_service),
         user_auth: tuple[UserProfile, str] = Depends(get_current_user)
-):
+) -> list[AppConfigModel]:
+    """
+    Get enabled application configurations.
+
+    Retrieves all currently enabled app configurations.
+    Accessible to any authenticated user.
+    """
     try:
         user = user_auth[0]
         if user:
@@ -38,12 +51,18 @@ async def get_enabled_configs(
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@router.get("/{app_config_id}")
+@router.get("/{app_config_id}", response_model=AppConfigModel)
 async def get_app_config_by_id(
         app_config_id: UUID,
         service: AppConfigService = Depends(get_app_config_service),
         user_auth: tuple[UserProfile, str] = Depends(is_user_admin)
-):
+) -> AppConfigModel:
+    """
+    Get application configuration by ID.
+
+    Retrieves a specific application configuration by its unique identifier.
+    Requires admin privileges.
+    """
     try:
         token = user_auth[1]
         app_config = service.get_config_by_id(app_config_id, token)
@@ -53,12 +72,17 @@ async def get_app_config_by_id(
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@router.post("/")
+@router.post("/", response_model=AppConfigModel)
 async def create_app_config(
         data: AppConfigRequest,
         service: AppConfigService = Depends(get_app_config_service),
         user_auth: tuple[UserProfile, str] = Depends(is_user_admin)
-):
+) -> AppConfigModel:
+    """
+    Create an application configuration.
+
+    Creates a new application configuration. Requires admin privileges.
+    """
     try:
         token = user_auth[1]
         app_config = service.create_config(data, token)
@@ -67,26 +91,37 @@ async def create_app_config(
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@router.patch("/{app_config_id}")
+@router.patch("/{app_config_id}", response_model=AppConfigModel)
 async def update_app_config(
         app_config_id: UUID,
         data: AppConfigRequest,
         service: AppConfigService = Depends(get_app_config_service),
         user_auth: tuple[UserProfile, str] = Depends(is_user_admin)
-):
+) -> AppConfigModel:
+    """
+    Update an application configuration.
+
+    Updates the specified application configuration. Requires admin privileges.
+    """
     try:
         token = user_auth[1]
-        service.update_config(app_config_id, data, token)
+        app_config = service.update_config(app_config_id, data, token)
+        return app_config
 
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@router.delete("/{app_config_id}")
+@router.delete("/{app_config_id}", status_code=204)
 async def delete_app_config(
         app_config_id: UUID,
         service: AppConfigService = Depends(get_app_config_service),
         user_auth: tuple[UserProfile, str] = Depends(is_user_admin)
-):
+) -> None:
+    """
+    Delete an application configuration.
+
+    Deletes the specified application configuration. Requires admin privileges.
+    """
     try:
         token = user_auth[1]
         service.delete_config(app_config_id, token)

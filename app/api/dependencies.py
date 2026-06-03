@@ -64,7 +64,7 @@ security = HTTPBearer()
 def get_current_user(
     credentials: HTTPAuthorizationCredentials = Security(security),
     auth_service: AuthService = Depends(get_auth_service)
-) -> tuple[UserProfile, str] :
+) -> tuple[UserProfile, str]:
     """
     Dependency function to extract and verify the JWT token from the Authorization header.
     Returns the authenticated UserProfile.
@@ -78,6 +78,18 @@ def get_current_user(
         raise HTTPException(status_code=401, detail=str(e))
 
 def is_user_admin(user_auth: tuple[UserProfile, str] = Depends(get_current_user)) -> tuple[UserProfile, str]:
+    """
+    Dependency function to check if the current user has admin privileges.
+
+    Args:
+        user_auth (tuple[UserProfile, str]): A tuple containing the UserProfile and token.
+
+    Returns:
+        tuple[UserProfile, str]: The authorized UserProfile and token.
+
+    Raises:
+        HTTPException: If the user is not authorized.
+    """
     user, token = user_auth
     authorized = user.is_authorized[0] if isinstance(user.is_authorized, tuple) else user.is_authorized
     if not authorized:
@@ -85,28 +97,82 @@ def is_user_admin(user_auth: tuple[UserProfile, str] = Depends(get_current_user)
     return user, token
 
 def get_pattern_service() -> PatternService:
+    """
+    Dependency function to provide an instance of PatternService.
+
+    Returns:
+        PatternService: An instance of the PatternService class.
+    """
     return pattern_service
 
 def get_user_service() -> UserService:
+    """
+    Dependency function to provide an instance of UserService.
+
+    Returns:
+        UserService: An instance of the UserService class.
+    """
     return user_service
 
 def get_architecture_service() -> ArchitectureService:
+    """
+    Dependency function to provide an instance of ArchitectureService.
+
+    Returns:
+        ArchitectureService: An instance of the ArchitectureService class.
+    """
     return architecture_service
 
 def get_code_language_service() -> CodeLanguagesService:
+    """
+    Dependency function to provide an instance of CodeLanguagesService.
+
+    Returns:
+        CodeLanguagesService: An instance of the CodeLanguagesService class.
+    """
     return code_language_service
 
 def get_pattern_code_service() -> PatternCodeService:
+    """
+    Dependency function to provide an instance of PatternCodeService.
+
+    Returns:
+        PatternCodeService: An instance of the PatternCodeService class.
+    """
     return pattern_code_service
 
 def get_image_service() -> ImageServices:
+    """
+    Dependency function to provide an instance of ImageServices.
+
+    Returns:
+        ImageServices: An instance of the ImageServices class.
+    """
     return image_service
 
 def get_app_config_service() -> AppConfigService:
+    """
+    Dependency function to provide an instance of AppConfigService.
+
+    Returns:
+        AppConfigService: An instance of the AppConfigService class.
+    """
     return app_config_service
 
 def get_settings_service() -> SettingsService:
+    """
+    Dependency function to provide an instance of SettingsService.
+
+    Returns:
+        SettingsService: An instance of the SettingsService class.
+    """
     return settings_service
 
 def get_profile_settings_service() -> ProfileSettingService:
+    """
+    Dependency function to provide an instance of ProfileSettingService.
+
+    Returns:
+        ProfileSettingService: An instance of the ProfileSettingService class.
+    """
     return profile_settings_service

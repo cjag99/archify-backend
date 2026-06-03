@@ -6,6 +6,9 @@ from app.domain.utils import sanitize_string
 
 
 class AppConfigModel(BaseModel):
+    """
+    Domain model representing an application configuration.
+    """
     id: UUID | None = None
     key: str
     value: str
@@ -16,6 +19,15 @@ class AppConfigModel(BaseModel):
     @field_validator("key", "value", "name", mode="before")
     @classmethod
     def validate_fieds(cls, value: str) -> str:
+        """
+        Validates and sanitizes string fields.
+        
+        Args:
+            value (str): The string value to sanitize.
+            
+        Returns:
+            str: The sanitized string.
+        """
         return sanitize_string(value)
 
     model_config = ConfigDict(from_attributes=True, strict=False)

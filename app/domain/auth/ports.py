@@ -1,3 +1,6 @@
+"""
+Ports and interfaces for authentication domain.
+"""
 from abc import ABC, abstractmethod
 from uuid import UUID
 from .dtos import UserLoginRequest, UserRegistrationRequest

@@ -1,3 +1,6 @@
+"""
+Data transfer objects (DTOs) for authentication.
+"""
 from pydantic import BaseModel, ConfigDict, Field, EmailStr, field_validator
 
 from ..users.models import NAME_REGEX, USERNAME_REGEX
@@ -26,6 +29,12 @@ class UserRegistrationRequest(BaseModel):
        Applies global sanitization to string fields to prevent XSS attacks.
 
        Delegates the actual sanitization logic to the sanitize_string function defined in domain.utils.sanitize_string.
+
+       Args:
+           value (str): The string value to sanitize.
+
+       Returns:
+           str: The sanitized string value.
        """
        return sanitize_string(value)
     

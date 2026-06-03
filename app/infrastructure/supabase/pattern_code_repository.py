@@ -10,6 +10,9 @@ class SupabasePatternCodeRepository(PatternsCodePort):
     This class implements the PatternsCodePort interface, providing methods to save and retrieve patterns code snippets using the Supabase client.
     """
     def __init__(self):
+        """
+        Initializes the SupabasePatternCodeRepository with the Supabase client and sets the table name.
+        """
         self.client = supabase_client
         self.table_name = "patterns_code"
 

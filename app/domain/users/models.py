@@ -69,6 +69,17 @@ class UserUpdateRequest(BaseModel):
     @field_validator("first_name", "last_name", "username", mode="before")
     @classmethod
     def validate_fields(cls, value: str | None) -> str | None:
+       """
+       Applies global sanitization to string fields to prevent XSS attacks.
+
+       Delegates the actual sanitization logic to the sanitize_string function.
+
+       Args:
+           value (str | None): The string value to sanitize.
+
+       Returns:
+           str | None: The sanitized string, or None if the input was None.
+       """
        if value is not None:
            return sanitize_string(value)
        return value

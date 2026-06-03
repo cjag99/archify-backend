@@ -31,12 +31,18 @@ def _with_icon_url(
     return CodeLanguagesResponse.from_model(code_language, icon_url=icon_url)
 
 
-@router.get("/")
+@router.get("/", response_model=list[CodeLanguagesResponse] | str)
 async def get_all_code_languages(
         service: CodeLanguagesService = Depends(get_code_language_service),
         image_service: ImageServices = Depends(get_image_service),
         user_auth: tuple[UserProfile, str] = Depends(get_current_user)
 ) -> list[CodeLanguagesResponse] | str:
+    """
+    Get all code languages.
+
+    Retrieves a list of all available code languages, including their icon URLs if present.
+    Returns a list of CodeLanguagesResponse or a string if none are found.
+    """
     try:
         user, token = user_auth
         code_languages = service.get_all_code_languages(token)
@@ -49,13 +55,18 @@ async def get_all_code_languages(
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@router.get("/{code_language_id}")
+@router.get("/{code_language_id}", response_model=CodeLanguagesResponse)
 async  def get_code_language_by_id(
         code_language_id: UUID,
         service: CodeLanguagesService = Depends(get_code_language_service),
         image_service: ImageServices = Depends(get_image_service),
         user_auth: tuple[UserProfile, str] = Depends(get_current_user)
 ) -> CodeLanguagesResponse:
+    """
+    Get code language by ID.
+
+    Retrieves a specific code language by its unique identifier, including its icon URL.
+    """
     try:
         user, token = user_auth
         code_language = service.get_code_language_by_id(code_language_id, token)
@@ -65,12 +76,17 @@ async  def get_code_language_by_id(
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@router.post("/")
+@router.post("/", response_model=CodeLanguagesModel)
 async def create_code_language(
         data: CodeLanguagesRequest,
         service: CodeLanguagesService = Depends(get_code_language_service),
         user_auth: tuple[UserProfile, str] = Depends(is_user_admin)
 ) -> CodeLanguagesModel:
+    """
+    Create a new code language.
+
+    Creates a new code language in the system. Requires admin privileges.
+    """
     try:
         token = user_auth[1]
         code_language = service.create_code_language(data, token)
@@ -78,25 +94,36 @@ async def create_code_language(
     except Exception as e:
         raise  HTTPException(status_code=400, detail=str(e))
 
-@router.patch("/{code_language_id}")
+@router.patch("/{code_language_id}", response_model=CodeLanguagesModel)
 async def update_code_language(
         code_language_id: UUID,
         data: CodeLanguagesRequest,
         service: CodeLanguagesService = Depends(get_code_language_service),
         user_auth: tuple[UserProfile, str] = Depends(is_user_admin)
-) -> None:
+) -> CodeLanguagesModel:
+    """
+    Update a code language.
+
+    Updates the specified code language. Requires admin privileges.
+    """
     try:
         token = user_auth[1]
-        service.update_code_language(code_language_id, data, token)
+        code_language = service.update_code_language(code_language_id, data, token)
+        return code_language
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@router.delete("/{code_language_id}")
+@router.delete("/{code_language_id}", status_code=204)
 async def delete_code_language(
         code_language_id: UUID,
         service: CodeLanguagesService = Depends(get_code_language_service),
         user_auth: tuple[UserProfile, str] = Depends(is_user_admin)
 ) -> None:
+    """
+    Delete a code language.
+
+    Deletes the specified code language from the system. Requires admin privileges.
+    """
     try:
         token = user_auth[1]
         service.delete_code_language(code_language_id, token)

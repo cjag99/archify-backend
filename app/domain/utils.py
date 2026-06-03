@@ -3,7 +3,15 @@ import html
 
 
 def normalize_image_url(value: str) -> str:
-    """Keep storage URLs intact; undo legacy html.escape on read."""
+    """
+    Keep storage URLs intact; undo legacy html.escape on read.
+
+    Args:
+        value (str): The image URL to normalize.
+
+    Returns:
+        str: The normalized image URL.
+    """
     if isinstance(value, str):
         return html.unescape(value.strip())
     return value

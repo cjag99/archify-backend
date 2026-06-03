@@ -10,13 +10,18 @@ from app.domain.users.models import UserProfile
 
 router = APIRouter()
 
-@router.post("/")
+@router.post("/", response_model=dict)
 async def upload_image(
         usage_type: ImageUsage = Query(...),
         image: UploadFile = File(),
         service: ImageServices = Depends(get_image_service),
         user_auth: tuple[UserProfile, str] = Depends(get_current_user),
-):
+) -> dict:
+    """
+    Upload a new image.
+
+    Uploads a new image file and creates a record in the database.
+    """
     try:
         user, token = user_auth
         user_uuid = str(user.id)
@@ -41,11 +46,17 @@ async def upload_image(
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.get("/")
+@router.get("/", response_model=list[ImageModel] | str)
 async def get_all_images(
         service: ImageServices = Depends(get_image_service),
         user_auth: tuple[UserProfile, str] = Depends(is_user_admin)
-):
+) -> list[ImageModel] | str:
+    """
+    Get all images.
+
+    Retrieves a list of all images in the system. Requires admin privileges.
+    Returns a list of ImageModel or a string if none are found.
+    """
     try:
         token = user_auth[1]
         images = service.get_all_images(token)
@@ -57,12 +68,17 @@ async def get_all_images(
         raise HTTPException(status_code=400, detail=str(e))
 
 
-@router.get("/{image_id}")
+@router.get("/{image_id}", response_model=ImageModel)
 async def get_image_by_id(
         image_id: UUID,
         service: ImageServices = Depends(get_image_service),
         user_auth: tuple[UserProfile, str] = Depends(get_current_user)
-):
+) -> ImageModel:
+    """
+    Get image by ID.
+
+    Retrieves a specific image by its unique identifier.
+    """
     try:
         user, token = user_auth
         image = service.get_image_by_id(user.id, image_id, token)
@@ -73,12 +89,17 @@ async def get_image_by_id(
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@router.get("/{user_id}")
+@router.get("/user/{user_id}", response_model=list[ImageModel] | str)
 async def get_user_images(
         user_id: UUID,
         service: ImageServices = Depends(get_image_service),
         user_auth: tuple[UserProfile, str] = Depends(get_current_user)
-):
+) -> list[ImageModel] | str:
+    """
+    Get user images.
+
+    Retrieves all images associated with a specific user.
+    """
     try:
         user, token = user_auth
         if user_id != user.id:
@@ -91,18 +112,21 @@ async def get_user_images(
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@router.delete("/{image_id}")
+@router.delete("/{image_id}", status_code=204)
 async def delete_image(
     image_id: UUID,
     service: ImageServices = Depends(get_image_service),
     user_auth: tuple[UserProfile, str] = Depends(is_user_admin)
-):
+) -> None:
+    """
+    Delete an image.
+
+    Deletes the specified image from the system. Requires admin privileges.
+    """
     try:
         user, token = user_auth
 
         service.delete_image(image_id, token)
-
-        return {"success": True}
 
     except Exception as e:
         import traceback

@@ -10,6 +10,9 @@ class SupabaseArchitectureRepository(ArchitecturePort):
     This class implements the ArchitecturePort interface, providing methods to save and retrieve architectures using the Supabase client.
     """
     def __init__(self):
+        """
+        Initializes the SupabaseArchitectureRepository with the Supabase client and sets the table name.
+        """
         self.client = supabase_client
         self.table_name = "architectures"
 

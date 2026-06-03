@@ -7,13 +7,15 @@ from app.domain.jsonb_type import JsonDict
 
 class PatternModel(BaseModel):
     """
-    Data model representing a desing pattern within the application
+    Data model representing a design pattern within the application.
+
     Attributes:
-        id (UUID): Unique identifier for the pattern.
+        id (UUID | None): Unique identifier for the pattern.
         name (str): Name of the pattern.
         description (str): Explanation of the pattern.
-        base_structure (JsonDict | None): Optional JSON containing nodes positions for pattern schema.
-        created_at (datetime): Timestamp indicating when the pattern was created.
+        base_structure (JsonDict | None): Optional JSON containing node positions for the pattern schema.
+        image_id (UUID | None): Optional unique identifier for an associated image.
+        created_at (datetime | None): Timestamp indicating when the pattern was created.
     """
     id: UUID | None = None
     name: str

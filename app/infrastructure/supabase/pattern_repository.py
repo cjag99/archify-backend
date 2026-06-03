@@ -11,6 +11,9 @@ class SupabasePatternRepository(PatternPort):
     This class implements the PatternPort interface, providing methods to save and retrieve patterns using the Supabase client.
     """
     def __init__(self):
+        """
+        Initializes the SupabasePatternRepository with the Supabase client and sets the table name.
+        """
         self.client = supabase_client
         self.table_name = "patterns"
 
