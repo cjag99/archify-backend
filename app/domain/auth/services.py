@@ -5,6 +5,7 @@ from .ports import AuthPort, AuthException
 from .dtos import UserLoginRequest, UserRegistrationRequest
 from ..users.ports import UserPort
 from ..users.models import UserProfile
+from uuid import UUID
 
 class AuthService:
     """
