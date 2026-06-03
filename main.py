@@ -14,6 +14,7 @@ origins = [
     "http://localhost",
     "http://localhost:3000",
     "http://localhost:8000",
+    "https://archify-frontend.vercel.app/"
 ]
 app.add_middleware(
     CORSMiddleware,
