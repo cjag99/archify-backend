@@ -117,3 +117,18 @@ class AuthService:
             return user_profile
         except Exception as e:
             raise AuthException(f"Token verification failed: {str(e)}")
+
+    def update_password(self, user_id: UUID, new_password: str) -> None:
+        """
+        Updates a user's password.
+        
+        Args:
+            user_id (UUID): The unique identifier of the user.
+            new_password (str): The new password for the user.
+        Raises:
+            AuthException: If the password update fails at any step.
+        """
+        try:
+            self.auth_port.update_password(user_id, new_password)
+        except Exception as e:
+            raise AuthException(f"Password update failed: {str(e)}")

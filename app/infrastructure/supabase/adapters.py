@@ -97,3 +97,21 @@ class SupabaseAuthAdapter(AuthPort):
 
         except Exception as e:
             raise AuthException(f"Token verification failed: {str(e)}")
+
+    def update_password(self, user_id: UUID, new_password: str) -> None:
+        """
+        Updates the password of a user using the admin API.
+        Args:
+            user_id (UUID): The unique identifier of the user.
+            new_password (str): The new password for the user.
+        Raises:
+            Exception: If updating the password fails.
+        """
+        try:
+            from .client import supabase_admin_client
+            supabase_admin_client.auth.admin.update_user_by_id(
+                str(user_id),
+                {"password": new_password}
+            )
+        except Exception as e:
+            raise AuthException(f"Password update failed: {str(e)}")

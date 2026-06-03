@@ -58,3 +58,13 @@ class AuthPort(ABC):
             UUID: The unique identifier of the user associated with the provided token.
         """
         pass
+
+    @abstractmethod
+    def update_password(self, user_id: UUID, new_password: str) -> None:
+        """
+        Updates the password of a user.
+        Args:
+            user_id (UUID): The unique identifier of the user.
+            new_password (str): The new password for the user.
+        """
+        pass

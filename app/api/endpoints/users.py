@@ -1,9 +1,11 @@
 from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException
 
-from app.api.dependencies import get_user_service, is_user_admin, get_current_user
+from app.api.dependencies import get_user_service, is_user_admin, get_current_user, get_auth_service
 from app.domain.users.models import UserProfile, UserUpdateRequest
 from app.domain.users.services import UserService
+from app.domain.auth.services import AuthService
+from app.domain.auth.dtos import UserPasswordUpdateRequest
 
 
 router = APIRouter()
@@ -65,7 +67,7 @@ async def update_profile(
     """
     try:
         user, token = user_auth
-        if user.id == user_id or user.role == "admin":
+        if user.id == user_id or user.is_authorized:
             return service.update_user_profile(user_id, data, token)
         else:
             raise HTTPException(status_code=403, detail="Not authorized to update this profile")
@@ -90,5 +92,27 @@ async def delete_profile(
         user, token = user_auth
         if user.id == user_id or user.is_authorized:
             service.delete_user(user_id, token)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+@router.patch("/{user_id}/password", status_code=204)
+async def update_password(
+        user_id: UUID,
+        data: UserPasswordUpdateRequest,
+        auth_service: AuthService = Depends(get_auth_service),
+        user_auth: tuple[UserProfile, str] = Depends(get_current_user)
+) -> None:
+    """
+    Update user password.
+
+    Updates the password for a specific user.
+    Users can only update their own password unless they have admin privileges.
+    """
+    try:
+        user, _ = user_auth
+        if user.id == user_id or user.is_authorized:
+            auth_service.update_password(user_id, data.password)
+        else:
+            raise HTTPException(status_code=403, detail="Not authorized to update this password")
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))

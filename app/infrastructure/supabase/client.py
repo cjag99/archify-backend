@@ -29,6 +29,18 @@ class SupabaseClient:
             cls._instance = create_client(url, key)
         
         return cls._instance
+
+    @classmethod
+    def get_admin_instance(cls) -> Client:
+        """
+        Retrieves the admin instance of the Supabase client using the service role key.
+        """
+        url = os.getenv("SUPABASE_URL")
+        key = os.getenv("SUPABASE_SERVICE_ROLE_KEY") or os.getenv("SUPABASE_KEY")
+        if not url or not key:
+            raise ValueError("Supabase URL and Service Role Key must be set in environment variables.")
+        return create_client(url, key)
     
     
 supabase_client = SupabaseClient.get_instance()
+supabase_admin_client = SupabaseClient.get_admin_instance()

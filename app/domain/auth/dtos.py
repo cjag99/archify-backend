@@ -52,3 +52,13 @@ class UserLoginRequest(BaseModel):
     password: str = Field(..., min_length=8, max_length=128)
 
     model_config = ConfigDict(from_attributes=True, strict=True)
+
+class UserPasswordUpdateRequest(BaseModel):
+    """
+    Data model for user password update requests.
+    Attributes:
+        password (str): New user password, must be 8-128 characters.
+    """
+    password: str = Field(..., min_length=8, max_length=128)
+
+    model_config = ConfigDict(from_attributes=True, strict=True)
