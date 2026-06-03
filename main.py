@@ -6,9 +6,7 @@ and includes routers for various API endpoints.
 """
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.api.endpoints import auth, projects, patterns, architectures, users, code_language, patterns_code, images, \
-    app_configs, settings, profile_settings
-
+from app.api.endpoints import auth, projects, patterns, architectures, users, code_language, patterns_code, images
 app = FastAPI()
 origins = [
     "http://localhost",
@@ -32,6 +30,3 @@ app.include_router(architectures.router, prefix="/architectures", tags=["archite
 app.include_router(code_language.router, prefix="/code-languages", tags=["code-languages"])
 app.include_router(patterns_code.router, prefix="/patterns-code", tags=["patterns-code"])
 app.include_router(images.router, prefix="/images", tags=["images"])
-app.include_router(app_configs.router, prefix="/app-configs", tags=["app-configs"])
-app.include_router(settings.router, prefix="/settings", tags=["settings"])
-app.include_router(profile_settings.router, prefix="/profile-settings", tags=["profile-settings"])

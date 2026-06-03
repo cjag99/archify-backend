@@ -6,64 +6,29 @@
   <component name="ChangeListManager">
     <list default="true" id="392def26-ec3c-415f-8561-ce367a41e5d7" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/api/dependencies.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/dependencies.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/endpoints/app_configs.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/endpoints/app_configs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/endpoints/architectures.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/endpoints/architectures.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/endpoints/app_configs.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/api/endpoints/auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/endpoints/auth.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/endpoints/code_language.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/endpoints/code_language.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/endpoints/images.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/endpoints/images.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/endpoints/patterns.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/endpoints/patterns.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/endpoints/patterns_code.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/endpoints/patterns_code.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/endpoints/profile_settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/endpoints/profile_settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/endpoints/projects.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/endpoints/projects.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/endpoints/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/endpoints/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/endpoints/users.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/endpoints/users.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/app_configs/dtos.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/app_configs/dtos.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/app_configs/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/app_configs/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/app_configs/ports.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/app_configs/ports.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/app_configs/services.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/app_configs/services.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/architectures/dtos.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/architectures/dtos.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/architectures/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/architectures/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/architectures/ports.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/architectures/ports.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/architectures/services.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/architectures/services.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/auth/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/auth/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/auth/dtos.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/auth/dtos.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/auth/ports.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/auth/ports.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/auth/services.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/auth/services.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/code_languages/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/code_languages/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/code_languages/dtos.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/code_languages/dtos.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/code_languages/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/code_languages/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/code_languages/ports.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/code_languages/ports.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/code_languages/services.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/code_languages/services.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/images/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/images/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/images/dtos.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/images/dtos.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/images/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/images/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/images/ports.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/images/ports.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/images/services.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/images/services.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/patterns/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/patterns/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/patterns/ports.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/patterns/ports.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/patterns/services.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/patterns/services.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/patterns_code/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/patterns_code/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/patterns_code/dtos.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/patterns_code/dtos.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/patterns_code/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/patterns_code/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/patterns_code/ports.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/patterns_code/ports.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/patterns_code/services.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/patterns_code/services.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/projects/services.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/projects/services.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/users/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/users/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/users/services.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/users/services.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/infrastructure/supabase/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/infrastructure/supabase/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/infrastructure/supabase/app_configs_repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/infrastructure/supabase/app_configs_repository.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/infrastructure/supabase/architecture_repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/infrastructure/supabase/architecture_repository.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/infrastructure/supabase/code_language_repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/infrastructure/supabase/code_language_repository.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/infrastructure/supabase/image_repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/infrastructure/supabase/image_repository.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/infrastructure/supabase/pattern_code_repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/infrastructure/supabase/pattern_code_repository.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/infrastructure/supabase/pattern_repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/infrastructure/supabase/pattern_repository.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/infrastructure/supabase/project_repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/infrastructure/supabase/project_repository.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/infrastructure/supabase/storage.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/infrastructure/supabase/storage.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/infrastructure/supabase/user_repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/infrastructure/supabase/user_repository.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/endpoints/profile_settings.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/endpoints/settings.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/domain/app_configs/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/domain/app_configs/dtos.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/domain/app_configs/models.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/domain/app_configs/ports.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/domain/app_configs/services.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/domain/profile_settings/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/domain/profile_settings/dtos.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/domain/profile_settings/models.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/domain/profile_settings/ports.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/domain/profile_settings/services.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/domain/settings/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/domain/settings/dtos.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/domain/settings/models.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/domain/settings/ports.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/domain/settings/services.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/infrastructure/supabase/app_configs_repository.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/infrastructure/supabase/profile_setting_repository.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/infrastructure/supabase/setting_repository.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -290,7 +255,8 @@
       <workItem from="1780328185659" duration="2435000" />
       <workItem from="1780391182808" duration="15198000" />
       <workItem from="1780473923887" duration="205000" />
-      <workItem from="1780481500676" duration="2508000" />
+      <workItem from="1780481500676" duration="2547000" />
+      <workItem from="1780489986209" duration="2389000" />
     </task>
     <servers />
   </component>
@@ -309,6 +275,6 @@
     </option>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/archify_backend$Unnamed.coverage" NAME="Unnamed Coverage Results" MODIFIED="1780483377080" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/archify_backend$Unnamed.coverage" NAME="Unnamed Coverage Results" MODIFIED="1780490379714" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>

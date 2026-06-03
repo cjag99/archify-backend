@@ -2,15 +2,16 @@ from fastapi import APIRouter, HTTPException, Depends
 from app.api.dependencies import get_auth_service
 from app.domain.auth.dtos import UserLoginRequest, UserRegistrationRequest
 from app.domain.auth.services import AuthService
+from app.domain.users.models import UserProfile
 
 
 router = APIRouter()
 
-@router.post("/register", response_model=str)
+@router.post("/register", response_model=UserProfile)
 async def register_user(
     data: UserRegistrationRequest,
     service: AuthService = Depends(get_auth_service)
-) -> str:
+) -> UserProfile:
     """
     Register a new user.
 
@@ -23,11 +24,11 @@ async def register_user(
         raise HTTPException(status_code=400, detail=str(e))
     
 
-@router.post("/login", response_model=str)
+@router.post("/login", response_model=dict)
 async def login_user(
     data: UserLoginRequest,
     service: AuthService = Depends(get_auth_service)
-) -> str:
+) -> dict:
     """
     Log in a user.
 
