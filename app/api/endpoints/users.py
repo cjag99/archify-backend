@@ -95,23 +95,21 @@ async def delete_profile(
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@router.patch("/{user_id}/password", status_code=204)
+@router.patch("/{user_id}/password", status_code=200)
 async def update_password(
-        user_id: UUID,
-        data: UserPasswordUpdateRequest,
-        auth_service: AuthService = Depends(get_auth_service),
-        user_auth: tuple[UserProfile, str] = Depends(get_current_user)
-) -> None:
+    user_id: UUID,
+    data: UserPasswordUpdateRequest,
+    auth_service: AuthService = Depends(get_auth_service),
+    user_auth: tuple[UserProfile, str] = Depends(get_current_user)
+) -> dict:
     """
     Update user password.
-
-    Updates the password for a specific user.
-    Users can only update their own password unless they have admin privileges.
     """
     try:
         user, _ = user_auth
         if user.id == user_id or user.is_authorized:
             auth_service.update_password(user_id, data.password)
+            return {"detail": "Password updated"}
         else:
             raise HTTPException(status_code=403, detail="Not authorized to update this password")
     except Exception as e:
