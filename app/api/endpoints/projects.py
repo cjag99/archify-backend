@@ -156,20 +156,18 @@ async def download_project(
             zip_file.writestr("README.md", readme_content)
 
         zip_buffer.seek(0)
-        zip_bytes = zip_buffer.getvalue()
 
         safe_project_name = "".join(c for c in project.name if c.isalnum() or c in ("_", "-")).strip()
         filename = f"{safe_project_name or 'project'}.zip"
 
         return StreamingResponse(
-            content=zip_bytes,
+            zip_buffer,
             status_code=200,
             media_type="application/octet-stream",
             headers={
                 "Content-Type": "application/zip",
                 "Content-Disposition": f'attachment; filename="{filename}"',
                 "Cache-Control": "no-store",
-                "Content-Length": str(len(zip_bytes))
             }
         )
 
