@@ -30,6 +30,7 @@ async def upload_image(
             raise HTTPException(status_code=403, detail="Not authorized to upload image for another user")
 
         owner_user_id = target_user_id if target_user_id is not None else user.id
+        use_admin_storage = target_user_id is not None
         image_bytes = await image.read()
         content_type = image.content_type
         if not content_type or content_type == "application/octet-stream":
@@ -41,7 +42,8 @@ async def upload_image(
             content_type=content_type,
             usage_type=usage_type,
             user_id=owner_user_id,
-            token=token
+            token=token,
+            use_admin_storage=use_admin_storage
         )
         return created.model_dump()
 

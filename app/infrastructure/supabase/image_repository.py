@@ -25,7 +25,7 @@ class SupabaseImageRepository(ImagePort):
         self.client = supabase_client
         self.table_name = "images"
 
-    def upload_image(self, file_bytes: bytes, file_name: str, content_type: str, usage_type: ImageUsage, user_id: UUID, token: str) -> ImageModel:
+    def upload_image(self, file_bytes: bytes, file_name: str, content_type: str, usage_type: ImageUsage, user_id: UUID, token: str, use_admin_storage: bool = False) -> ImageModel:
         """
         Uploads an image file to Supabase storage and creates an image record in the database.
         Args:
@@ -33,8 +33,9 @@ class SupabaseImageRepository(ImagePort):
             file_name (str): The name of the file.
             content_type (str): The MIME type of the file.
             usage_type (ImageUsage): The intended usage of the image.
-            user_id (UUID): The ID of the user uploading the image.
+            user_id (UUID): The ID of the user owning the image.
             token (str): The authentication token for the request.
+            use_admin_storage (bool): Whether to use the admin storage client for upload.
         Returns:
             ImageModel: The saved image record.
         Raises:
@@ -47,9 +48,14 @@ class SupabaseImageRepository(ImagePort):
                 content_type,
             )
 
-            self.client.postgrest.auth(token)
+            if use_admin_storage:
+                storage_client = supabase_admin_client
+            else:
+                self.client.postgrest.auth(token)
+                storage_client = self.client
+
             bucket = get_storage_bucket()
-            storage_response = self.client.storage.from_(bucket).upload(
+            storage_response = storage_client.storage.from_(bucket).upload(
                 path=image_path,
                 file=file_bytes,
                 file_options={"contentType": content_type},

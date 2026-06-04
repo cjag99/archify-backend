@@ -16,7 +16,7 @@ class ImageServices:
         """
         self.port = port
 
-    def create_image(self, file_bytes: bytes, file_name: str, content_type: str, usage_type: ImageUsage, user_id: UUID, token: str) -> ImageModel:
+    def create_image(self, file_bytes: bytes, file_name: str, content_type: str, usage_type: ImageUsage, user_id: UUID, token: str, use_admin_storage: bool = False) -> ImageModel:
         """
         Creates a new image.
 
@@ -27,11 +27,12 @@ class ImageServices:
             usage_type (ImageUsage): The intended usage of the image.
             user_id (UUID): The ID of the user.
             token (str): The authorization token.
+            use_admin_storage (bool): Whether to use the admin storage client for upload.
 
         Returns:
             ImageModel: The newly created image.
         """
-        return self.port.upload_image(file_bytes, file_name, content_type, usage_type, user_id, token)
+        return self.port.upload_image(file_bytes, file_name, content_type, usage_type, user_id, token, use_admin_storage)
 
     def get_image_by_id(self, user_id: UUID, image_id: UUID, token: str) -> ImageModel | None:
         """

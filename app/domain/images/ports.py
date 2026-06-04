@@ -8,7 +8,7 @@ class ImagePort(ABC):
     Abstract base class defining the port interface for image operations.
     """
     @abstractmethod
-    def upload_image(self, file_bytes: bytes, file_name: str, content_type: str, usage_type: ImageUsage, user_id: UUID, token: str) -> ImageModel:
+    def upload_image(self, file_bytes: bytes, file_name: str, content_type: str, usage_type: ImageUsage, user_id: UUID, token: str, use_admin_storage: bool = False) -> ImageModel:
         """
         Uploads an image.
 
@@ -17,8 +17,9 @@ class ImagePort(ABC):
             file_name (str): The name of the file.
             content_type (str): The MIME type of the file.
             usage_type (ImageUsage): The intended usage of the image.
-            user_id (UUID): The ID of the user uploading the image.
+            user_id (UUID): The ID of the user owning the image.
             token (str): The authorization token.
+            use_admin_storage (bool): Whether to use the admin storage client for upload.
 
         Returns:
             ImageModel: The uploaded image model.
