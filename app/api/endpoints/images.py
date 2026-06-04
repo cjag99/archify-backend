@@ -1,6 +1,6 @@
 import mimetypes
 from uuid import UUID
-from fastapi import APIRouter, File, UploadFile, Depends, HTTPException
+from fastapi import APIRouter, File, UploadFile, Depends, HTTPException, Form
 from fastapi.params import Query
 
 from app.api.dependencies import get_image_service, get_current_user, is_user_admin
@@ -13,7 +13,8 @@ router = APIRouter()
 @router.post("/", response_model=dict)
 async def upload_image(
         usage_type: ImageUsage = Query(...),
-        target_user_id: UUID | None = Query(None),
+        target_user_id_query: UUID | None = Query(None, alias="target_user_id"),
+        target_user_id_form: UUID | None = Form(None, alias="target_user_id"),
         image: UploadFile = File(),
         service: ImageServices = Depends(get_image_service),
         user_auth: tuple[UserProfile, str] = Depends(get_current_user),
@@ -26,6 +27,7 @@ async def upload_image(
     """
     try:
         user, token = user_auth
+        target_user_id = target_user_id_form if target_user_id_form is not None else target_user_id_query
         if target_user_id is not None and not user.is_authorized:
             raise HTTPException(status_code=403, detail="Not authorized to upload image for another user")
 
