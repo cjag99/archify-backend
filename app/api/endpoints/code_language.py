@@ -48,10 +48,15 @@ async def get_all_code_languages(
         code_languages = service.get_all_code_languages(token)
         if not code_languages:
             return "No code languages to show"
-        return [
-            _with_icon_url(lang, user.id, token, image_service)
-            for lang in code_languages
-        ]
+        result = []
+        for lang in code_languages:
+            try:
+                result.append(_with_icon_url(lang, user.id, token, image_service))
+            except Exception as e:
+                print(f"Error getting icon for language {lang.id}: {e}")
+                # Still include the language even if icon fails
+                result.append(CodeLanguagesResponse.from_model(lang, icon_url=None))
+        return result
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
@@ -72,7 +77,14 @@ async  def get_code_language_by_id(
         code_language = service.get_code_language_by_id(code_language_id, token)
         if not code_language:
             raise HTTPException(status_code=404, detail="Code language not found")
-        return _with_icon_url(code_language, user.id, token, image_service)
+        try:
+            return _with_icon_url(code_language, user.id, token, image_service)
+        except Exception as icon_error:
+            print(f"Error getting icon for language {code_language_id}: {icon_error}")
+            # Return language without icon if icon fetch fails
+            return CodeLanguagesResponse.from_model(code_language, icon_url=None)
+    except HTTPException:
+        raise
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 

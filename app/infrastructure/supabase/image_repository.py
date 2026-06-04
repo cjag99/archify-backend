@@ -134,6 +134,7 @@ class SupabaseImageRepository(ImagePort):
                 ImageUsage.CODE_LOGO,
                 ImageUsage.PATTERN_GRAPHIC,
             }
+            # Check if user has access: is admin, owns image, or image is in shared usage
             if user.is_authorized or image.user_id == user_id or image.usage_type in shared_usage:
                 return image
 
