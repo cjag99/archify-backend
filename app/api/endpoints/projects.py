@@ -1,11 +1,13 @@
 import io
 import zipfile
+import requests
 from uuid import UUID
 from fastapi import APIRouter, HTTPException, Depends
 from fastapi.responses import StreamingResponse
 
-from app.api.dependencies import get_project_service, get_current_user, get_architecture_service
+from app.api.dependencies import get_project_service, get_current_user, get_architecture_service, get_image_service
 from app.domain.architectures.services import ArchitectureService
+from app.domain.images.services import ImageServices
 from app.domain.projects.dtos import ProjectCreateModel
 from app.domain.projects.services import ProjectService
 from app.domain.projects.models import ProjectModel
@@ -84,6 +86,7 @@ async def download_project(
         project_id: UUID,
         service: ProjectService = Depends(get_project_service),
         architecture_service: ArchitectureService = Depends(get_architecture_service),
+        image_service: ImageServices = Depends(get_image_service),
         user_auth: tuple[UserProfile, str] = Depends(get_current_user)
 ) -> StreamingResponse:
     """
@@ -103,6 +106,21 @@ async def download_project(
         with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zip_file:
             readme_content = f'# {project.name}\n\n'
             readme_content += f'## Description\n{project.description}\n\n'
+
+            # Download and add logo if exists
+            if project.project_logo:
+                try:
+                    logo_image = image_service.get_image_by_id(project.user_id, project.project_logo, token)
+                    if logo_image and logo_image.url:
+                        response = requests.get(logo_image.url, timeout=10)
+                        if response.status_code == 200:
+                            # Extract file extension from URL or use original filename
+                            file_extension = logo_image.file_name.split('.')[-1] if '.' in logo_image.file_name else 'png'
+                            zip_file.writestr(f"logo.{file_extension}", response.content)
+                            readme_content += f'## Logo\n![Logo](logo.{file_extension})\n\n'
+                except Exception as e:
+                    print(f"Error downloading logo: {e}")
+                    # Continue without logo if download fails
 
             if project.architecture is not None:
                 architecture_id = project.architecture.get("architecture_id", None)
