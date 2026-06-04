@@ -25,6 +25,17 @@ The project strictly follows the **Hexagonal Architecture (Ports and Adapters)**
 - **BaaS**: Supabase (PostgreSQL, GoTrue Auth, Storage)
 - **Architecture**: Hexagonal (Ports and Adapters)
 
+## Security Model
+
+Authentication and session management are delegated to Supabase using GoTrue. The backend does not implement a custom auth system; instead, it relies on Supabase Auth for:
+
+- user registration and login
+- JWT issuance and validation
+- secure session lifecycle management
+- role metadata attached to user profiles
+
+The application uses Supabase as the source of truth for identity, and backend endpoints assume valid JWT tokens or authenticated requests. This separation keeps the backend focused on business logic, while Supabase handles user authentication, password flows, and secure token management.
+
 ## Architecture Overview
 
 The system is organized into three distinct layers:
