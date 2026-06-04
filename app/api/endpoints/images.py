@@ -28,11 +28,16 @@ async def upload_image(
     try:
         user, token = user_auth
         target_user_id = target_user_id_form if target_user_id_form is not None else target_user_id_query
-        if target_user_id is not None and not user.is_authorized:
-            raise HTTPException(status_code=403, detail="Not authorized to upload image for another user")
+        target_user_id_provided = target_user_id_form is not None or target_user_id_query is not None
 
-        owner_user_id = target_user_id if target_user_id is not None else user.id
-        use_admin_storage = target_user_id is not None
+        if not target_user_id_provided:
+            target_user_id = user.id
+        elif target_user_id != user.id and not user.is_authorized:
+            # Normal users cannot upload for another user, so force their own user id.
+            target_user_id = user.id
+
+        owner_user_id = target_user_id
+        use_admin_storage = target_user_id_provided and user.is_authorized
         image_bytes = await image.read()
         content_type = image.content_type
         if not content_type or content_type == "application/octet-stream":
@@ -49,6 +54,8 @@ async def upload_image(
         )
         return created.model_dump()
 
+    except HTTPException:
+        raise
     except Exception as e:
         import traceback
         traceback.print_exc()
