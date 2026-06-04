@@ -47,7 +47,7 @@ class SupabaseImageRepository(ImagePort):
                 content_type,
             )
 
-            self.client.auth(token)
+            self.client.postgrest.auth(token)
             bucket = get_storage_bucket()
             storage_response = self.client.storage.from_(bucket).upload(
                 path=image_path,
