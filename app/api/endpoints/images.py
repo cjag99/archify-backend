@@ -13,6 +13,7 @@ router = APIRouter()
 @router.post("/", response_model=dict)
 async def upload_image(
         usage_type: ImageUsage = Query(...),
+        target_user_id: UUID | None = Query(None),
         image: UploadFile = File(),
         service: ImageServices = Depends(get_image_service),
         user_auth: tuple[UserProfile, str] = Depends(get_current_user),
@@ -21,10 +22,14 @@ async def upload_image(
     Upload a new image.
 
     Uploads a new image file and creates a record in the database.
+    Admin users may optionally upload an image on behalf of another user by providing target_user_id.
     """
     try:
         user, token = user_auth
-        user_uuid = str(user.id)
+        if target_user_id is not None and not user.is_authorized:
+            raise HTTPException(status_code=403, detail="Not authorized to upload image for another user")
+
+        owner_user_id = target_user_id if target_user_id is not None else user.id
         image_bytes = await image.read()
         content_type = image.content_type
         if not content_type or content_type == "application/octet-stream":
@@ -35,7 +40,7 @@ async def upload_image(
             file_name=image.filename or "image",
             content_type=content_type,
             usage_type=usage_type,
-            user_id=UUID(user_uuid),
+            user_id=owner_user_id,
             token=token
         )
         return created.model_dump()

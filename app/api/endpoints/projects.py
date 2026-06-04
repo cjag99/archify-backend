@@ -148,7 +148,7 @@ async def download_project(
                             folder_name_slug = folder_name.replace(" ", "_").lower()
                             suffix = node_type.split("-")[-1]
                             file_path = f"src/{folder_name_slug}/{folder_name_slug}_{suffix}.py"
-                            file_content = f"# Componente autogenerado para {label}\n"
+                            file_content = f"# Auto-generated component file for {label}\n"
                             zip_file.writestr(file_path, file_content)
 
                     readme_content += "\n"
