@@ -88,7 +88,7 @@ If you do not have Docker installed, initialize the database through the Supabas
 
 - Open your Supabase project dashboard.
 - Run the SQL scripts in `database_dump/supabase/migrations/*` in order.
-- Then run `database_dump/seed.sql` to populate the database with seed data.
+- Then run `database_dump/supabase/seed.sql` to populate the database with seed data.
 
 ### 2. Environment Variables
 Create a `.env` file in the root directory with your Supabase credentials:
