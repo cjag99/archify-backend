@@ -70,7 +70,27 @@ supabase/                  # SQL initialization scripts for RLS and Storage
 
 ## Setup and Installation
 
-### 1. Environment Variables
+Before anything else, you must have a Supabase account. If you do not already have one, register at https://supabase.com and create a new project before continuing.
+
+### 1. Supabase Initialization
+If you have Docker and Node installed locally, use the files in `database_dump/` to create and populate the database automatically:
+
+```bash
+cd database_dump
+npm install
+npx supabase init
+npx supabase start
+```
+
+This will create the local Supabase database and apply the migrations and seed data for you.
+
+If you do not have Docker installed, initialize the database through the Supabase web interface instead:
+
+- Open your Supabase project dashboard.
+- Run the SQL scripts in `database_dump/supabase/migrations/*` in order.
+- Then run `database_dump/seed.sql` to populate the database with seed data.
+
+### 2. Environment Variables
 Create a `.env` file in the root directory with your Supabase credentials:
 ```env
 SUPABASE_URL=your_project_url
@@ -79,13 +99,10 @@ SUPABASE_STORAGE_BUCKET=archify
 SUPABASE_STORAGE_PUBLIC=true
 ```
 
-### 2. Supabase Initialization
-Run the SQL script located at `supabase/storage_bucket.sql` in your Supabase SQL Editor. This initializes the `archify` bucket and configures the necessary public read and authenticated write policies.
+### 3. Dependency Installation
+This project uses `uv` for dependency management.
 
-### 3. Instalación de dependencias
-Este proyecto utiliza uv para una gestión de dependencias rápida y fiable.
-
-**Si no tienes `uv` instalado**, puedes hacerlo con los siguientes comandos:
+**If you do not have `uv` installed**, install it with one of the following commands:
 
 - **Windows (PowerShell):**
   ```powershell
@@ -96,7 +113,7 @@ Este proyecto utiliza uv para una gestión de dependencias rápida y fiable.
   curl -LsSf https://astral.sh/uv/install.sh | sh
   ```
 
-Una vez instalado, sincroniza el proyecto:
+Once installed, synchronize the project:
 ```bash
 uv sync
 ```
