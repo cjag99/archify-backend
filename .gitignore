@@ -5,4 +5,4 @@ __pycache__/
 *.py[cod]
 *$py.class
 .env
-database_dump/*
+database_dump/node_modules/
