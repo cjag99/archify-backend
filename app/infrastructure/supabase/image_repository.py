@@ -52,6 +52,7 @@ class SupabaseImageRepository(ImagePort):
                 storage_client = supabase_admin_client
             else:
                 self.client.postgrest.auth(token)
+                self.client.options.headers.update({"Authorization": f"Bearer {token}"})
                 storage_client = self.client
 
             bucket = get_storage_bucket()
