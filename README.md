@@ -52,20 +52,16 @@ app/
 │   ├── dependencies.py    # DI for Services and Repositories
 │   └── endpoints/         # FastAPI Routers (projects, users, images, etc.)
 ├── domain/
-│   ├── app_configs/       # Global application configurations
 │   ├── architectures/     # Logic for architectural diagrams
 │   ├── auth/              # Domain-specific authentication logic
 │   ├── code_languages/    # Programming language metadata
 │   ├── images/            # Image asset management and metadata
 │   ├── patterns/          # Design pattern definitions
 │   ├── patterns_code/     # Code generation logic for specific patterns
-│   ├── profile_settings/  # User-specific preference logic
 │   ├── projects/          # Project CRUD and the ZIP Export Engine
-│   ├── settings/          # General system settings
 │   └── users/             # User profile entities and roles
 └── infrastructure/
     └── supabase/          # Concrete adapters for Supabase services
-supabase/                  # SQL initialization scripts for RLS and Storage
 ```
 
 ## Setup and Installation
